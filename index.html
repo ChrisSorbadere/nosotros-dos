@@ -1,0 +1,889 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nosotros Dos</title>
+<meta name="description" content="Blanca y Chris — Preguntas, retos, salidas y rituales para dos">
+<meta name="theme-color" content="#c4714a">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Nosotros Dos">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
+<link rel="manifest" href="manifest.json">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #faf6f0;
+    --warm: #f5ede0;
+    --terracotta: #c4714a;
+    --terra-light: #e8a07a;
+    --terra-dark: #9a4f2e;
+    --ink: #2a1f1a;
+    --ink-soft: #5a4a40;
+    --gold: #c9a84c;
+    --gold-light: #e8d49a;
+    --sage: #7a9e7e;
+    --blush: #d4908a;
+    --indigo: #5c6b8a;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      radial-gradient(ellipse at 20% 20%, rgba(196,113,74,0.06) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  /* Floating hearts */
+  .hearts-bg {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+  }
+
+  .heart-float {
+    position: absolute;
+    font-size: 1rem;
+    opacity: 0;
+    animation: floatHeart linear infinite;
+    user-select: none;
+  }
+
+  @keyframes floatHeart {
+    0%   { transform: translateY(110vh) scale(0.6) rotate(-15deg); opacity: 0; }
+    10%  { opacity: 0.18; }
+    90%  { opacity: 0.12; }
+    100% { transform: translateY(-10vh) scale(1.1) rotate(15deg); opacity: 0; }
+  }
+
+  .app {
+    position: relative;
+    z-index: 1;
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px 60px;
+  }
+
+  /* Header */
+  header {
+    text-align: center;
+    padding: 50px 0 36px;
+    position: relative;
+  }
+
+  .header-hearts {
+    font-size: 1.4rem;
+    letter-spacing: 10px;
+    color: var(--terracotta);
+    opacity: 0.55;
+    margin-bottom: 10px;
+    display: block;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.4rem, 6vw, 3.6rem);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--terracotta);
+  }
+
+  .header-sub {
+    font-size: 0.87rem;
+    color: var(--ink-soft);
+    margin-top: 10px;
+    font-weight: 300;
+    letter-spacing: 0.5px;
+  }
+
+  .header-names {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.15rem;
+    color: var(--terracotta);
+    margin-top: 8px;
+    letter-spacing: 1px;
+    opacity: 0.85;
+  }
+
+  .header-deco {
+    margin-top: 18px;
+    font-size: 0.95rem;
+    color: var(--terracotta);
+    opacity: 0.35;
+    letter-spacing: 6px;
+  }
+
+  /* Categories */
+  .categories {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 32px 0 24px;
+  }
+
+  .cat-btn {
+    border: none;
+    cursor: pointer;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    padding: 9px 18px;
+    border-radius: 100px;
+    transition: all 0.22s ease;
+    letter-spacing: 0.3px;
+    position: relative;
+  }
+
+  .cat-btn.active {
+    transform: scale(1.06);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.14);
+  }
+
+  .cat-btn:hover:not(.active) { transform: scale(1.03); }
+
+  .cat-0 { background: #fde8dc; color: #8a3a20; }
+  .cat-0.active { background: var(--terracotta); color: white; }
+  .cat-1 { background: #e8f0e0; color: #3a5e30; }
+  .cat-1.active { background: var(--sage); color: white; }
+  .cat-2 { background: #e0e6f0; color: #2a3d5e; }
+  .cat-2.active { background: var(--indigo); color: white; }
+  .cat-3 { background: #f5e8d8; color: #7a4820; }
+  .cat-3.active { background: var(--gold); color: white; }
+  .cat-4 { background: #f0e0e0; color: #7a2e2e; }
+  .cat-4.active { background: var(--blush); color: white; }
+  .cat-5 { background: #e8e0f0; color: #3a2a6a; }
+  .cat-5.active { background: #7a6aaa; color: white; }
+  .cat-6 { background: #e0f0ec; color: #1a5a48; }
+  .cat-6.active { background: #3a8a72; color: white; }
+  .cat-7 { background: #f0e8d8; color: #5a3e1a; }
+  .cat-7.active { background: #a07840; color: white; }
+
+  /* Progress dots */
+  .progress-bar {
+    margin: 0 0 20px;
+    text-align: center;
+    min-height: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .progress-label {
+    font-size: 0.75rem;
+    color: var(--ink-soft);
+    opacity: 0.55;
+    letter-spacing: 0.3px;
+  }
+
+  .progress-dots {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
+    justify-content: center;
+    max-width: 500px;
+  }
+
+  .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(90,74,64,0.15);
+    transition: all 0.3s ease;
+    flex-shrink: 0;
+  }
+
+  .dot.seen {
+    background: var(--terracotta);
+    transform: scale(1.1);
+  }
+
+  .dot.heart {
+    background: none;
+    font-size: 8px;
+    width: 10px;
+    height: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  /* Card area */
+  .card-area {
+    position: relative;
+    min-height: 290px;
+    margin: 0 0 22px;
+  }
+
+  .card {
+    background: white;
+    border-radius: 20px;
+    padding: 38px 44px;
+    box-shadow: 0 8px 40px rgba(42,31,26,0.08), 0 2px 8px rgba(42,31,26,0.04);
+    position: relative;
+    overflow: hidden;
+    animation: cardIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  }
+
+  @keyframes cardIn {
+    from { opacity: 0; transform: translateY(18px) scale(0.96); }
+    to   { opacity: 1; transform: translateY(0) scale(1); }
+  }
+
+  .card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+  }
+
+  /* Decorative heart inside card */
+  .card::after {
+    content: '♥';
+    position: absolute;
+    bottom: 16px;
+    left: 22px;
+    font-size: 0.8rem;
+    color: var(--terracotta);
+    opacity: 0.15;
+  }
+
+  .card.color-0::before { background: linear-gradient(90deg, var(--terracotta), var(--terra-light)); }
+  .card.color-1::before { background: linear-gradient(90deg, var(--sage), #a8d4ac); }
+  .card.color-2::before { background: linear-gradient(90deg, var(--indigo), #8a9eba); }
+  .card.color-3::before { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+  .card.color-4::before { background: linear-gradient(90deg, var(--blush), #e8b0aa); }
+  .card.color-5::before { background: linear-gradient(90deg, #7a6aaa, #aaa0cc); }
+  .card.color-6::before { background: linear-gradient(90deg, #3a8a72, #6abaa4); }
+  .card.color-7::before { background: linear-gradient(90deg, #a07840, #d4b07a); }
+
+  .card-tag {
+    font-size: 0.72rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 18px;
+    opacity: 0.55;
+  }
+
+  .card-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.15rem, 2.8vw, 1.5rem);
+    line-height: 1.58;
+    color: var(--ink);
+  }
+
+  .card-sub {
+    margin-top: 16px;
+    font-size: 0.87rem;
+    color: var(--ink-soft);
+    line-height: 1.62;
+    font-weight: 300;
+  }
+
+  .card-counter {
+    position: absolute;
+    bottom: 18px;
+    right: 22px;
+    font-size: 0.73rem;
+    color: var(--ink-soft);
+    opacity: 0.35;
+  }
+
+  /* Empty state */
+  .empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 270px;
+    text-align: center;
+    color: var(--ink-soft);
+  }
+
+  .empty-icon { font-size: 2.8rem; margin-bottom: 14px; }
+  .empty-text { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-style: italic; }
+  .empty-sub { font-size: 0.84rem; margin-top: 8px; opacity: 0.65; }
+
+  /* Buttons */
+  .actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .btn-main {
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    padding: 15px 34px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.93rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    letter-spacing: 0.3px;
+    box-shadow: 0 4px 20px rgba(196,113,74,0.32);
+  }
+
+  .btn-main:hover {
+    background: var(--terra-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(196,113,74,0.4);
+  }
+
+  .btn-main:active { transform: translateY(0); }
+
+  .btn-sec {
+    background: transparent;
+    color: var(--ink-soft);
+    border: 1.5px solid rgba(90,74,64,0.24);
+    padding: 14px 22px;
+    border-radius: 100px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.87rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+
+  .btn-sec:hover {
+    border-color: var(--terracotta);
+    color: var(--terracotta);
+    background: rgba(196,113,74,0.05);
+  }
+
+  .stats {
+    text-align: center;
+    margin-top: 18px;
+    font-size: 0.77rem;
+    color: var(--ink-soft);
+    opacity: 0.45;
+  }
+
+  /* Favorites */
+  .favs-section {
+    margin-top: 46px;
+    border-top: 1px solid rgba(90,74,64,0.11);
+    padding-top: 32px;
+  }
+
+  .favs-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.15rem;
+    color: var(--ink);
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .fav-item {
+    background: var(--warm);
+    border-radius: 12px;
+    padding: 13px 16px;
+    margin-bottom: 8px;
+    font-size: 0.87rem;
+    color: var(--ink);
+    line-height: 1.5;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 12px;
+    animation: cardIn 0.3s ease;
+  }
+
+  .fav-remove {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-soft);
+    opacity: 0.38;
+    font-size: 0.95rem;
+    flex-shrink: 0;
+    transition: opacity 0.2s;
+  }
+  .fav-remove:hover { opacity: 0.75; }
+
+  .fav-cat {
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.48;
+    margin-bottom: 3px;
+  }
+
+  /* Footer hearts */
+  .footer-hearts {
+    text-align: center;
+    margin-top: 48px;
+    font-size: 1rem;
+    color: var(--terracotta);
+    opacity: 0.25;
+    letter-spacing: 8px;
+  }
+
+  @media (max-width: 480px) {
+    .card { padding: 26px 22px; }
+    .btn-main { padding: 13px 26px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Floating hearts background -->
+<div class="hearts-bg" id="heartsbg"></div>
+
+<div class="app">
+  <header>
+    <span class="header-hearts">♥ ♡ ♥</span>
+    <h1>Nosotros <em>Dos</em></h1>
+    <p class="header-names">Blanca &amp; Chris</p>
+    <p class="header-sub">Preguntas · Retos · Salidas · Juegos · Rituales</p>
+    <div class="header-deco">❧ ❧ ❧</div>
+  </header>
+
+  <div class="categories" id="categories"></div>
+
+  <div class="progress-bar" id="progressBar" style="display:none">
+    <div class="progress-label" id="progressLabel"></div>
+    <div class="progress-dots" id="progressDots"></div>
+  </div>
+
+  <div class="card-area" id="cardArea">
+    <div class="empty">
+      <span class="empty-icon">♡</span>
+      <p class="empty-text">Elige una categoría</p>
+      <p class="empty-sub">y saca una carta</p>
+    </div>
+  </div>
+
+  <div class="actions">
+    <button class="btn-main" onclick="draw()">Sacar una carta</button>
+    <button class="btn-sec" id="btnFav" onclick="saveFav()" style="display:none">♡ Guardar</button>
+    <button class="btn-sec" onclick="randomCategory()">Al azar</button>
+    <button class="btn-sec" id="btnReset" onclick="resetCurrent()">↺ Reiniciar</button>
+  </div>
+
+  <div class="stats" id="stats"></div>
+
+  <div class="favs-section" id="favsSection" style="display:none">
+    <p class="favs-title">♥ Mis favoritas</p>
+    <div id="favsList"></div>
+  </div>
+
+  <div class="footer-hearts">♥ ♡ ♥ ♡ ♥</div>
+</div>
+
+<script>
+const CATEGORIES = [
+  {
+    id: 0, label: "💬 Preguntas profundas", short: "Pregunta",
+    items: [
+      { text: "¿Cuál es el recuerdo que más atesorarías de nosotros dos?", sub: "Tómate tu tiempo para responder de verdad." },
+      { text: "¿Qué hago yo que todavía te hace sonreír sin razón?", sub: null },
+      { text: "¿Hay algo que nunca me hayas dicho y que te hubiera gustado decirme?", sub: "No es una obligación — solo una invitación." },
+      { text: "Si pudiéramos empezar de cero hoy, ¿dónde viviríamos y por qué?", sub: null },
+      { text: "¿Cuál es el sueño que tienes y que quisieras que viviéramos juntos antes de los 65?", sub: null },
+      { text: "¿Cuál es tu recuerdo favorito de este último año?", sub: null },
+      { text: "¿Qué harías diferente si pudieras volver a 2015?", sub: "El año en que todo empezó." },
+      { text: "¿Qué te he aportado que no esperabas?", sub: null },
+      { text: "¿De qué cosa tuya te sientes más orgulloso/a en este momento?", sub: null },
+      { text: "Si tuvieras que describir nuestra relación con una película, ¿cuál sería?", sub: null },
+      { text: "¿Qué te ha sorprendido más de mí desde que nos conocemos?", sub: null },
+      { text: "¿Cuál es tu lugar favorito en el mundo cuando estamos juntos?", sub: null },
+      { text: "Si pudieras cambiar una sola cosa de nuestro día a día, ¿cuál sería?", sub: "Para recibir sin ponerse a la defensiva." },
+      { text: "¿Hay algo que quisieras aprender o vivir y que nunca te hayas atrevido a decir?", sub: null },
+      { text: "¿Cuál es el gesto que he tenido contigo y que nunca olvidarás?", sub: null },
+      { text: "Si me escribieras una carta para leer dentro de 10 años, ¿qué dirías?", sub: "Quizás incluso escribirla de verdad." },
+      { text: "¿Qué nos hace realmente diferentes a otras parejas?", sub: null },
+      { text: "¿Hay algo que te guste de cómo nos peleamos?", sub: "Sí, incluso eso puede tener su valor." },
+      { text: "Si pudieras pasar un día entero haciendo lo que quisieras, sin mí — ¿qué harías?", sub: null },
+      { text: "¿Qué haces por mí que crees que no noto?", sub: null },
+      { text: "¿Qué es lo que todavía te atrae de mí después de todos estos años?", sub: null },
+      { text: "¿Cuál es tu sueño secreto que no le has contado a nadie más?", sub: null },
+      { text: "Si nuestra pareja fuera un paisaje, ¿cuál sería?", sub: "Montaña, mar, bosque, desierto, campo..." },
+      { text: "¿Qué harías si supieras que no puedes fracasar?", sub: null },
+      { text: "¿Cuál fue el momento en que pensaste 'es él / es ella'?", sub: "Quizás la primera vez, quizás la centésima." },
+    ]
+  },
+  {
+    id: 1, label: "🎲 Juegos y Retos", short: "Reto",
+    items: [
+      { text: "Quiz: 5 preguntas sobre el otro", sub: "Su canción favorita ahora · Su plato reconfortante · Lo que más le molesta en el trabajo · Su actor/actriz favorito · Su miedo secreto. ¡Contad los puntos!" },
+      { text: "Blind test casero", sub: "Cada uno prepara 10 canciones que el otro debe identificar. Con una copa, aún mejor." },
+      { text: "Yo nunca — versión pareja", sub: "Por turnos, una frase que empiece por 'Yo nunca...'. Si el otro lo ha hecho, bebe (o come un trozo de chocolate)." },
+      { text: "Reto foto de la semana", sub: "Cada uno hace 3 fotos de su día. Por la noche, las comentáis, adivinad el contexto, contad la historia." },
+      { text: "El juego de los post-its", sub: "Cada uno escribe 5 cosas que ama del otro. Se doblan, se mezclan, se leen en voz alta." },
+      { text: "¿Quién lo dijo?", sub: "Releed mensajes o correos antiguos juntos e intentad adivinar quién los escribió. Acabaréis riendo." },
+      { text: "Dibujo con los ojos cerrados", sub: "Cada uno dibuja al otro con los ojos cerrados. Comparad. Siempre acaba en carcajadas." },
+      { text: "La lista de 10", sub: "Cada uno lista 10 cosas que quiere hacer antes de morir. Se comparan, se buscan puntos en común." },
+      { text: "Reto culinario", sub: "Cada uno prepara un plato que el otro nunca ha probado. Se come a ciegas." },
+      { text: "Noche 'revivimos la peli'", sub: "Volved a ver una película que visteis juntos al principio de vuestra relación. La conversación está garantizada." },
+      { text: "Imitación en silencio", sub: "Mimad una situación de vuestro día a día. El otro debe adivinar cuál. Regla: sin ningún sonido." },
+      { text: "La entrevista imaginaria", sub: "Os entrevistan en una revista sobre vuestra pareja. Responded juntos como si fuera real." },
+      { text: "La palabra prohibida", sub: "Elegid una palabra cotidiana (ej: 'bien', 'sí', 'vale'). Durante toda la noche, el que la diga pierde un punto." },
+      { text: "Trivia geográfica", sub: "Por turnos, nombrad una ciudad de un país elegido. El primero que no sabe pierde. Se permite el mapa." },
+      { text: "Charadas en pareja", sub: "Cada uno prepara 5 charadas. Se juega por turnos. Nivel: se recomienda el absurdo." },
+      { text: "El reto del 'cumplido inesperado'", sub: "Cada uno debe hacer 3 cumplidos al otro sobre cosas poco habituales — nada de los clásicos. Sed creativos." },
+      { text: "Noche 'lo mejor de nosotros'", sub: "Buscad fotos antiguas juntos. Cada uno elige su foto favorita del otro y explica por qué." },
+      { text: "¿Quién soy?", sub: "Pegad un post-it con un nombre famoso en la frente del otro. Preguntas de sí/no para adivinar." },
+      { text: "Concurso de ligoteo", sub: "Sois dos desconocidos en un café. Cada uno intenta 'seducir' al otro con su mejor frase. Responded como si no os conocierais." },
+      { text: "El minuto de silencio al revés", sub: "60 segundos en los que hay que hablar sin parar al otro, sin pausas. Sobre cualquier tema. El primero que se calla pierde." },
+      { text: "Dibujo colaborativo", sub: "En la misma hoja: cada uno dibuja por turnos, 30 segundos. No se sabe adónde va. Se para después de 10 turnos." },
+      { text: "El 'Y si...' encadenado", sub: "Una frase empieza por '¿Y si...?' y el otro continúa la historia. Se encadenan durante al menos 5 minutos." },
+    ]
+  },
+  {
+    id: 2, label: "🏙️ Salidas y Aventuras", short: "Salida",
+    items: [
+      { text: "Zaragoza como turistas", sub: "Visitad un barrio como si fuera la primera vez. El Gancho, el mercado central, las Delicias... Haced fotos como extranjeros." },
+      { text: "Restaurante sacado a suertes", sub: "Abrid Google Maps, cerrad los ojos, poned el dedo. Vais a ese restaurante esta noche." },
+      { text: "Autobús sin destino", sub: "Coged el primer bus que pase. Bajad cuando os apetezca. Caminad. Volved andando si podéis." },
+      { text: "Fin de semana en San Sebastián", sub: "2 días, pintxos, mar, casco viejo. A menos de 3h en coche desde Zaragoza. A planificar este mes." },
+      { text: "Ruta del vino del Somontano", sub: "Un día, dos bodegas como máximo, picnic entre medias. Bodegas Enate o Viñas del Vero para empezar." },
+      { text: "Senderismo en los Pirineos + picnic", sub: "Una mochila, embutido, una botella de vino. Una subida fácil o media según las ganas. Valle de Hecho u Ordesa." },
+      { text: "Escape room en Zaragoza", sub: "Perfecto para la complicidad y las carcajadas garantizadas. Buscad un tema que os atraiga." },
+      { text: "Curso de cocina juntos", sub: "Buscad un taller en Zaragoza. Cocina aragonesa, japonesa, italiana... Da igual — lo que importa es el 'hacerlo juntos'." },
+      { text: "Cine de verano al aire libre", sub: "Estad atentos a la programación estival en Zaragoza. Llevad una manta y snacks caseros." },
+      { text: "Visita a un museo + cena temática", sub: "Museo Pablo Gargallo, Museo de Zaragoza o el Museo del Foro. Elegid un restaurante relacionado con la temática de la expo." },
+      { text: "Un día en Barcelona", sub: "Tren Renfe directo. Llegada por la mañana, vuelta por la noche. Barrio Gótico, Boqueria, paseo marítimo. Un solo objetivo: callejear." },
+      { text: "Taller de cerámica", sub: "Buscad un curso de alfarería en Zaragoza. Crear algo juntos con las manos — una experiencia rara y memorable." },
+      { text: "Noche de flamenco", sub: "Si nunca lo habéis hecho juntos: un tablao de verdad, no el espectáculo turístico. Buscad recomendaciones locales." },
+      { text: "Paseo nocturno por Zaragoza", sub: "Después de las 22h, la ciudad cambia. Tomaos algo a orillas del Ebro. Id donde nunca vais normalmente." },
+      { text: "Picnic en el Parque Grande José Antonio Labordeta", sub: "Un domingo por la mañana. Cruasanes, café en termo, periódico. Sin móvil durante 1 hora." },
+      { text: "Fin de semana en Bilbao", sub: "El Guggenheim, el puerto viejo, los pintxos. 3h en coche. Reservad un hotelito en el centro." },
+      { text: "Road trip de un día sin GPS", sub: "Dirección vagamente 'norte' o 'sur'. Parad en cuanto algo os llame la atención. De vuelta antes de medianoche." },
+      { text: "Observación astronómica nocturna", sub: "Salid de la ciudad una noche de luna nueva. Buscad un punto sin contaminación lumínica. Llevad una manta." },
+      { text: "Clases de baile", sub: "Salsa, tango, bachata — da igual. Una iniciación en Zaragoza. Podéis ser malísimos: ese es el objetivo." },
+      { text: "Mercado de productores + cocina improvisada", sub: "Id juntos al mercado por la mañana. Comprad lo que os llame. Volved a casa y cocinar sin receta." },
+      { text: "Día de spa o termas", sub: "Buscad un spa day en Zaragoza o en un hotel de los alrededores. Desconexión total." },
+      { text: "Ir a ver un espectáculo en vivo", sub: "Concierto, teatro, comedia, ópera — el estilo da igual. Lo esencial: algo que no habrías elegido solo/a." },
+    ]
+  },
+  {
+    id: 3, label: "✨ Rituales cotidianos", short: "Ritual",
+    items: [
+      { text: "El mensaje inesperado", sub: "Un WhatsApp en pleno día, sin motivo. Sin ocasión especial. Solo porque sí." },
+      { text: "El mejor momento del día", sub: "Cada noche en la cena: cada uno dice su mejor momento del día. Regla: el 'meh' está prohibido." },
+      { text: "La sorpresa mensual", sub: "Cada uno organiza algo por turnos. Sin límite de presupuesto. El otro no sabe qué, ni cuándo. Este mes: ¿a quién le toca?" },
+      { text: "Nuestra canción del mes", sub: "Elegimos una canción que represente esta época. La escuchamos juntos. La añadimos a una playlist 'Nosotros'." },
+      { text: "El abrazo de 20 segundos", sub: "Parece una tontería. No lo es. La oxitocina necesita al menos 20 segundos para activarse. Cada día." },
+      { text: "Café del domingo por la mañana", sub: "Nada más. Sin móvil, sin lista de la compra. Solo el café y vosotros dos." },
+      { text: "El cumplido del lunes", sub: "Cada lunes, al salir al trabajo: un cumplido de verdad. No 'estás guapa' — algo concreto y específico." },
+      { text: "La nota escondida", sub: "Deslizad un post-it en el bolso, el bolsillo, la mochila — donde el otro lo encuentre por sorpresa." },
+      { text: "La cena sin pantallas", sub: "Una vez a la semana. Móviles boca abajo. Sin tele. Solo vosotros dos y conversación." },
+      { text: "El balance del mes", sub: "El último domingo del mes: 10 minutos. Lo que nos ha gustado, lo que menos, lo que queremos vivir el mes que viene." },
+      { text: "El paseo de la tarde", sub: "20 minutos después de cenar, a pie, juntos. Sin destino fijo. Regla: nada de temas 'logísticos'." },
+      { text: "La película de la semana", sub: "Alternáis: una semana eliges tú, la siguiente ella. No se puede criticar la elección del otro." },
+      { text: "El objeto-recuerdo", sub: "Traed algo de cada salida — una entrada, una foto, una piedra. Guardadlo en una caja común." },
+      { text: "La nota de agradecimiento", sub: "Una vez al mes, escribid al otro (en papel) algo que haya hecho y que no hayáis agradecido lo suficiente." },
+      { text: "La playlist 'Nosotros'", sub: "Cread una playlist de Spotify compartida. Cada uno añade una canción a la semana. Escuchadla juntos el fin de semana." },
+      { text: "El ritual de antes de dormir", sub: "Antes de apagar: una cosa buena del día, un gesto de ternura. Sin móvil durante al menos 15 minutos." },
+      { text: "La foto del fin de semana", sub: "Cada fin de semana, una sola foto que os guste a los dos. Una al mes para imprimir." },
+    ]
+  },
+  {
+    id: 4, label: "💑 Complicidad y Ternura", short: "Ternura",
+    items: [
+      { text: "Masajes mutuos", sub: "20 minutos cada uno. Música suave, sin móvil. Es tanto dar como recibir." },
+      { text: "Noche de 'primera cita'", sub: "Comportaos como si os conocierais por primera vez. Arreglaos. Id a un sitio donde nunca vais." },
+      { text: "Bailar en el salón", sub: "Sin motivo. Poned vuestra canción favorita y bailad como si nadie os mirara — porque nadie os mira." },
+      { text: "Leer juntos", sub: "Elegid un libro para leer en voz alta, un capítulo cada uno. Una novela, un relato, da igual." },
+      { text: "Ver fotos antiguas juntos", sub: "Sin objetivo. Simplemente abrir el álbum (o el móvil) y dejar que los recuerdos vuelvan." },
+      { text: "Cocinar juntos un plato ambicioso", sub: "Un plato que nunca hayáis hecho. Sin presión sobre el resultado. Lo esencial es el proceso." },
+      { text: "Noche sin despertador", sub: "Apagad las alarmas. Dormid hasta que os despertéis solos. Desayuno en la cama si es posible." },
+      { text: "Carta para leer dentro de 5 años", sub: "Cada uno escribe una carta al otro. Se sellan. Se guardan. Prometéis leerlas juntos dentro de 5 años." },
+      { text: "Volver a un lugar lleno de recuerdos", sub: "El lugar de una primera cita, un viaje, un momento importante. Id juntos. Hablar de lo que sentís." },
+      { text: "Noche de pijamas sin plan", sub: "Quedaos en casa, pedid comida a domicilio, poneos el pijama, ved lo que queráis. Cero presión, cero programa." },
+      { text: "El baño o la ducha juntos", sub: "Con velas si queréis. El agua caliente relaja, desata, acerca." },
+      { text: "Desayuno en la cama un domingo", sub: "Lo preparáis por turnos. El otro se queda bajo el edredón hasta que todo esté listo." },
+      { text: "Deciros 3 cosas que admiráis el uno del otro — ahora", sub: "No dentro de 10 años. Ahora. En voz alta. Miraderos a los ojos." },
+      { text: "Noche de películas antiguas", sub: "Películas de antes de conoceros. Las que fueron importantes para cada uno. El otro descubre una parte de quién erais." },
+    ]
+  },
+  {
+    id: 5, label: "🚀 Proyectos y Sueños", short: "Proyecto",
+    items: [
+      { text: "La 'Bucket List' para dos", sub: "Cada uno escribe 10 cosas que hacer antes de los 70. Lo ponéis en común. Elegís 5 compartidas. Las planificáis de verdad." },
+      { text: "Destino soñado — planificadlo", sub: "No 'algún día nos gustaría ir a Japón'. Abrid Skyscanner esta noche y elegid una fecha. Lo demás viene después." },
+      { text: "Aprender algo juntos", sub: "Un idioma, un instrumento, un arte, un deporte. Algo que ninguno de los dos sepa hacer. Clases colectivas a ser posible." },
+      { text: "Proyecto de casa o decoración", sub: "Elegid una habitación para transformar juntos. No una obra — una visión. Pinterest, IKEA, mercadillo, pintura." },
+      { text: "Viajar 'off the beaten path'", sub: "Un país que ninguno de los dos haya visitado. No el más obvio. Georgia, Islandia, Marruecos interior, Albania, Portugal rural." },
+      { text: "Crear algo juntos", sub: "Un huerto, un álbum de fotos impreso, una receta familiar, un vídeo-recuerdo. Algo que quede." },
+      { text: "Un reto deportivo común", sub: "Inscribíos en algo juntos: ruta larga, bici, natación... Con una fecha. El compromiso hace las cosas reales." },
+      { text: "Imaginad vuestra jubilación ideal", sub: "¿Dónde? ¿Cómo? ¿Qué hacéis con vuestros días? Sed precisos y soñad en grande. Es un ejercicio de conocimiento mutuo." },
+      { text: "El proyecto 'una ciudad por año'", sub: "Cada año, una ciudad que nunca hayáis visitado juntos. Alternáis para elegir. ¿Cuál es la próxima?" },
+      { text: "Cread un ritual anual", sub: "Un fin de semana, un lugar, una fecha. Cada año. Como un ancla. ¿Dónde sería?" },
+      { text: "La cena de gala en casa", sub: "Organizad una cena gastronómica de verdad en casa — menú, maridaje, presentación cuidada, ropa de gala. Solo para vosotros dos." },
+      { text: "Imaginad vuestra vida dentro de 15 años", sub: "¿Dónde vivís? ¿Qué hacéis? ¿Cómo son vuestros días? ¿Seguís cerca el uno del otro?" },
+      { text: "Un proyecto artístico o creativo", sub: "Pintar juntos, escribir algo, hacer fotos. No hace falta ser buenos. Lo que cuenta es la intención y el compartir." },
+    ]
+  },
+  {
+    id: 6, label: "📖 Recuerdos", short: "Recuerdo",
+    items: [
+      { text: "¿Cuál es el primer recuerdo que tienes de mí?", sub: "No la primera vez que nos vimos — el primer momento en que me miraste de verdad." },
+      { text: "¿Qué pensabas de mí la primera semana?", sub: "La respuesta real, no la versión romantizada." },
+      { text: "¿Cuál es el viaje que hemos hecho juntos del que más te acuerdas?", sub: "Una escena concreta, no solo el país." },
+      { text: "¿Cuál es la comida que hemos compartido y que nunca olvidarás?", sub: "Quizás no la más gastronómica — pero la más significativa." },
+      { text: "¿Recuerdas lo que llevabas puesto el día que nos conocimos?", sub: "¿Y yo?" },
+      { text: "¿Cuál es el momento en que más miedo has tenido de perderme?", sub: "Tomad el tiempo de responder con honestidad." },
+      { text: "¿Cuál es la carcajada que hemos tenido y que sigue siendo la mejor?", sub: "Intentad contarla sin reíros. Spoiler: imposible." },
+      { text: "¿De qué discusión no te sientes orgulloso/a?", sub: "No para reabrir heridas — para medir el camino recorrido." },
+      { text: "¿Recuerdas el primer viaje que hicimos juntos?", sub: "Contadlo con detalle. ¿Qué queda de ese momento?" },
+      { text: "¿Cuál es el regalo que te he hecho y que más te ha emocionado?", sub: null },
+      { text: "¿Cuál fue el momento en que te dijiste que me querías de verdad — no solo que estabas enamorado/a?", sub: "El matiz es importante." },
+      { text: "¿Cuál es la cosa más loca que hemos hecho juntos?", sub: "Loca en sentido amplio — espontánea, inesperada, arriesgada, absurda..." },
+      { text: "¿Recuerdas nuestra primera Navidad o Nochevieja juntos?", sub: "¿Qué pasó? ¿Qué te quedó de eso?" },
+      { text: "¿Cuál es el momento en que has estado más orgulloso/a de mí?", sub: null },
+      { text: "¿Cuál es el cumplido que te hice y que nunca has olvidado?", sub: null },
+      { text: "¿Cuál es el período más difícil que hemos atravesado — y cómo salimos de él?", sub: "Una mirada atrás que dice algo de lo que somos." },
+      { text: "¿Recuerdas un momento en que lloramos de risa juntos?", sub: "Contadlo con detalle." },
+      { text: "¿Cuál es la primera foto que tienes de nosotros dos?", sub: "Buscadla juntos esta noche si podéis." },
+      { text: "¿Cuál es el concierto, espectáculo o evento que vivimos juntos y que te marcó?", sub: null },
+      { text: "¿Qué hacías antes de conocernos y que dejaste — sin darte apenas cuenta?", sub: null },
+      { text: "¿Recuerdas la primera vez que dormimos juntos?", sub: "¿Cómo te sentías?" },
+      { text: "¿Cuál fue el momento en que te diste cuenta de que nuestra relación era seria?", sub: "Un gesto, una frase, una situación..." },
+      { text: "¿Cuál es el recuerdo nuestro que querrías meter en una caja y guardar para siempre?", sub: null },
+    ]
+  },
+  {
+    id: 7, label: "😄 Diversión y Humor", short: "Diversión",
+    items: [
+      { text: "Impostad un acento extranjero", sub: "Durante toda la noche, habláis con un acento elegido al azar. Inglés, italiano, ruso... Aguantad hasta el final." },
+      { text: "Doblaje casero", sub: "Quitad el sonido de una película o serie y doblar los personajes vosotros mismos. Cuanto más dramático, mejor." },
+      { text: "Ping-pong de '¿Y si...?'", sub: "Preguntas absurdas por turnos. '¿Y si tuviéramos un cocodrilo de mascota?' El otro responde en serio." },
+      { text: "Inventar una receta imposible", sub: "Dad una vuelta a la nevera y cread una receta con ingredientes que no pegan. Probad el resultado." },
+      { text: "Noche de karaoke privado", sub: "YouTube, un micro improvisado, y cero vergüenza. Cada uno elige una canción para el otro." },
+      { text: "Ver algo de serie cutre juntos", sub: "Nada de documental ni serie seria. Algo completamente malo y asumido." },
+      { text: "Cata a ciegas", sub: "Vinos, quesos, chocolates o tés. Uno prepara, el otro prueba con los ojos cerrados e intenta adivinar." },
+      { text: "Noche de 'YouTube rabbit hole'", sub: "Partís de un vídeo cualquiera y veis hasta dónde podéis llegar clicando en las sugerencias. Máximo 1h." },
+      { text: "Concurso de chistes malos", sub: "Cada uno prepara 5 chistes. Cuanto más malos, mejor. El otro puntúa del 1 al 10 la calidad de lo malo." },
+      { text: "Inventar un juego de mesa", sub: "En 20 minutos, inventad las reglas de un juego con lo que tengáis a mano. Jugadlo. Rara vez funciona — ese es el punto." },
+      { text: "Noche de ilusión de lujo", sub: "Pedid vuestra mejor comida a domicilio, poned la mesa como un gran restaurante, música de jazz. Presupuesto de kebab, ambiente de palace." },
+      { text: "El reto 'sin las manos'", sub: "Comed algo intentando no usar las manos. Ciertos alimentos son recomendables, otros no en absoluto." },
+      { text: "Retrato del otro en 60 segundos", sub: "Cronómetro activado. Comparad los resultados. Sin piedad." },
+      { text: "Rol de personajes históricos", sub: "Elegid un personaje cada uno (sin decirlo). El otro debe adivinar haciendo preguntas de sí/no." },
+      { text: "Noche temática absurda", sub: "Elegid un tema ridículo para la cena. 'Cocina de los años 70', 'astronautas', 'nobles medievales'. Disfraz opcional pero recomendado." },
+      { text: "Concurso de baile ridículo", sub: "Cada uno tiene 2 minutos para preparar una coreografía. Se actúa. Se aplaude. Se ríe sin parar." },
+    ]
+  }
+];
+
+// State
+let currentCat = null;
+let currentCard = null;
+let usedIndices = {};
+let favorites = JSON.parse(localStorage.getItem('couple_favs_es') || '[]');
+
+// Floating hearts
+function createHearts() {
+  const container = document.getElementById('heartsbg');
+  const symbols = ['♥', '♡', '❤', '♥', '♡'];
+  for (let i = 0; i < 12; i++) {
+    const h = document.createElement('div');
+    h.className = 'heart-float';
+    h.textContent = symbols[i % symbols.length];
+    h.style.left = (5 + Math.random() * 90) + '%';
+    h.style.fontSize = (0.7 + Math.random() * 0.9) + 'rem';
+    h.style.color = Math.random() > 0.5 ? '#c4714a' : '#d4908a';
+    h.style.animationDuration = (18 + Math.random() * 22) + 's';
+    h.style.animationDelay = (Math.random() * 20) + 's';
+    container.appendChild(h);
+  }
+}
+createHearts();
+
+// Init category buttons
+const catContainer = document.getElementById('categories');
+CATEGORIES.forEach((cat, i) => {
+  const btn = document.createElement('button');
+  btn.className = `cat-btn cat-${i}`;
+  btn.textContent = cat.label;
+  btn.onclick = () => selectCategory(i);
+  catContainer.appendChild(btn);
+});
+
+function selectCategory(id) {
+  currentCat = id;
+  if (!usedIndices[id]) usedIndices[id] = [];
+  document.querySelectorAll('.cat-btn').forEach((b, i) => {
+    b.classList.toggle('active', i === id);
+  });
+  updateProgressBar();
+  draw();
+}
+
+function resetCurrent() {
+  if (currentCat === null) return;
+  usedIndices[currentCat] = [];
+  updateProgressBar();
+  updateStats();
+  // Visual feedback on button
+  const btn = document.getElementById('btnReset');
+  btn.textContent = '✓ Listo';
+  setTimeout(() => { btn.textContent = '↺ Reiniciar'; }, 1400);
+  // Redraw card area to empty state
+  document.getElementById('cardArea').innerHTML = `
+    <div class="empty">
+      <span class="empty-icon">♡</span>
+      <p class="empty-text">Categoría reiniciada</p>
+      <p class="empty-sub">¡Saca una nueva carta!</p>
+    </div>`;
+  document.getElementById('btnFav').style.display = 'none';
+}
+
+function randomCategory() {
+  const id = Math.floor(Math.random() * CATEGORIES.length);
+  selectCategory(id);
+}
+
+function updateProgressBar() {
+  if (currentCat === null) return;
+  const cat = CATEGORIES[currentCat];
+  const total = cat.items.length;
+  const seen = (usedIndices[currentCat] || []);
+  const bar = document.getElementById('progressBar');
+  const label = document.getElementById('progressLabel');
+  const dots = document.getElementById('progressDots');
+
+  bar.style.display = 'flex';
+  label.textContent = `${seen.length} de ${total} cartas vistas`;
+
+  // Build dots — use hearts every 5th dot
+  dots.innerHTML = cat.items.map((_, i) => {
+    const isSeen = seen.includes(i);
+    if ((i + 1) % 5 === 0) {
+      return `<span class="dot heart" title="${i+1}">${isSeen ? '♥' : '♡'}</span>`;
+    }
+    return `<span class="dot ${isSeen ? 'seen' : ''}" title="${i+1}"></span>`;
+  }).join('');
+}
+
+function draw() {
+  if (currentCat === null) {
+    randomCategory();
+    return;
+  }
+  const cat = CATEGORIES[currentCat];
+  let pool = cat.items.map((_, i) => i).filter(i => !(usedIndices[currentCat] || []).includes(i));
+
+  if (pool.length === 0) {
+    usedIndices[currentCat] = [];
+    pool = cat.items.map((_, i) => i);
+  }
+
+  const idx = pool[Math.floor(Math.random() * pool.length)];
+  if (!usedIndices[currentCat]) usedIndices[currentCat] = [];
+  usedIndices[currentCat].push(idx);
+  currentCard = { catId: currentCat, itemIdx: idx };
+
+  const item = cat.items[idx];
+  const total = cat.items.length;
+  const used = usedIndices[currentCat].length;
+
+  const area = document.getElementById('cardArea');
+  area.innerHTML = `
+    <div class="card color-${currentCat}">
+      <div class="card-tag">${cat.short}</div>
+      <p class="card-text">${item.text}</p>
+      ${item.sub ? `<p class="card-sub">${item.sub}</p>` : ''}
+      <div class="card-counter">${used}/${total}</div>
+    </div>
+  `;
+
+  document.getElementById('btnFav').style.display = 'inline-block';
+  updateProgressBar();
+  updateStats();
+}
+
+function saveFav() {
+  if (!currentCard) return;
+  const cat = CATEGORIES[currentCard.catId];
+  const item = cat.items[currentCard.itemIdx];
+  const fav = { catLabel: cat.short, text: item.text, catId: currentCard.catId };
+
+  if (!favorites.some(f => f.text === fav.text)) {
+    favorites.push(fav);
+    localStorage.setItem('couple_favs_es', JSON.stringify(favorites));
+    renderFavs();
+
+    const btn = document.getElementById('btnFav');
+    btn.textContent = '♥ ¡Guardada!';
+    btn.style.borderColor = 'var(--terracotta)';
+    btn.style.color = 'var(--terracotta)';
+    setTimeout(() => {
+      btn.textContent = '♡ Guardar';
+      btn.style.borderColor = '';
+      btn.style.color = '';
+    }, 1600);
+  }
+}
+
+function removeFav(idx) {
+  favorites.splice(idx, 1);
+  localStorage.setItem('couple_favs_es', JSON.stringify(favorites));
+  renderFavs();
+}
+
+function renderFavs() {
+  const section = document.getElementById('favsSection');
+  const list = document.getElementById('favsList');
+  if (favorites.length === 0) { section.style.display = 'none'; return; }
+  section.style.display = 'block';
+  list.innerHTML = favorites.map((f, i) => `
+    <div class="fav-item">
+      <div>
+        <div class="fav-cat">${f.catLabel}</div>
+        <div>${f.text}</div>
+      </div>
+      <button class="fav-remove" onclick="removeFav(${i})">✕</button>
+    </div>
+  `).join('');
+}
+
+function updateStats() {
+  const total = CATEGORIES.reduce((s, c) => s + c.items.length, 0);
+  const used = Object.values(usedIndices).reduce((s, arr) => s + arr.length, 0);
+  document.getElementById('stats').textContent = `${used} carta${used !== 1 ? 's' : ''} vista${used !== 1 ? 's' : ''} de ${total} en total`;
+}
+
+renderFavs();
+updateStats();
+
+// Register service worker for PWA
+if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("sw.js").catch(() => {});
+}
+
+</script>
+</body>
+</html>
