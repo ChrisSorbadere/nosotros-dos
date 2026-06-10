@@ -333,6 +333,55 @@
   }
   .fav-remove:hover { opacity: 0.9; }
 
+
+  /* ---------- Modo duelo ---------- */
+  .duel-panel {
+    display: none;
+    margin: 22px 0 0;
+    background: rgba(247,239,225,0.06);
+    border: 1px solid rgba(217,164,65,0.3);
+    border-radius: 16px;
+    padding: 16px 18px;
+    animation: fadeUp 0.3s ease;
+  }
+  .duel-panel.on { display: block; }
+  .duel-row { display: flex; align-items: center; justify-content: center; gap: 14px; }
+  .duel-side { text-align: center; flex: 1; max-width: 150px; }
+  .duel-name {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 1.05rem; color: var(--oro-claro); margin-bottom: 4px;
+  }
+  .duel-score {
+    font-family: 'Fraunces', serif; font-size: 2.3rem;
+    color: var(--crema-texto); line-height: 1;
+  }
+  .duel-vs { font-size: 0.8rem; color: var(--crema-suave); opacity: 0.6; letter-spacing: 2px; }
+  .duel-plus {
+    margin-top: 8px;
+    background: rgba(217,164,65,0.15); color: var(--oro-claro);
+    border: 1px solid rgba(217,164,65,0.4); border-radius: 100px;
+    padding: 8px 22px; font-size: 1rem; font-weight: 600;
+    font-family: 'Figtree', sans-serif; cursor: pointer;
+    transition: background 0.2s;
+  }
+  .duel-plus:active { background: rgba(217,164,65,0.35); }
+  .duel-tools { text-align: center; margin-top: 12px; }
+  .duel-reset {
+    background: none; border: none; cursor: pointer;
+    font-size: 0.8rem; color: var(--crema-suave); opacity: 0.6;
+    text-decoration: underline; font-family: 'Figtree', sans-serif;
+  }
+  .btn-sec.duel-on { border-color: var(--oro); color: var(--oro-claro); background: rgba(217,164,65,0.1); }
+
+  /* ---------- Copia de seguridad ---------- */
+  .backup {
+    margin-top: 40px; padding-top: 24px;
+    border-top: 1px solid rgba(239,231,218,0.12);
+    text-align: center;
+  }
+  .backup-label { font-size: 0.8rem; color: var(--crema-suave); opacity: 0.7; margin-bottom: 10px; }
+  .backup .btn-sec { font-size: 0.84rem; padding: 11px 18px; }
+
   /* ---------- Toast ---------- */
   .toast {
     position: fixed; bottom: 28px; left: 50%;
@@ -406,7 +455,28 @@
     <button class="btn-sec" id="btnFav" onclick="saveFav()" style="display:none">♡ A la lista</button>
     <button class="btn-sec" id="btnShare" onclick="shareCard()" style="display:none">Compartir</button>
     <button class="btn-sec" onclick="randomCategory()">Al azar</button>
+    <button class="btn-sec" id="btnDuel" onclick="toggleDuel()">⚔ Duelo</button>
     <button class="btn-sec" id="btnReset" onclick="resetCurrent()">↺</button>
+  </div>
+
+
+  <div class="duel-panel" id="duelPanel">
+    <div class="duel-row">
+      <div class="duel-side">
+        <div class="duel-name">Blanca</div>
+        <div class="duel-score" id="scoreB">0</div>
+        <button class="duel-plus" onclick="duelPoint('b')">+1</button>
+      </div>
+      <div class="duel-vs">VS</div>
+      <div class="duel-side">
+        <div class="duel-name">Chris</div>
+        <div class="duel-score" id="scoreC">0</div>
+        <button class="duel-plus" onclick="duelPoint('c')">+1</button>
+      </div>
+    </div>
+    <div class="duel-tools">
+      <button class="duel-reset" onclick="duelReset()">Reiniciar marcador</button>
+    </div>
   </div>
 
   <div class="progress-bar" id="progressBar">
@@ -420,6 +490,14 @@
     <p class="favs-title">Nuestra lista</p>
     <p class="favs-sub">Las cartas que habéis guardado — marcad las que ya habéis vivido</p>
     <div id="favsList"></div>
+  </div>
+
+
+  <div class="backup">
+    <p class="backup-label">Copia de seguridad — para pasar vuestra lista y progreso de un móvil a otro</p>
+    <button class="btn-sec" onclick="exportState()">⬇ Exportar</button>
+    <button class="btn-sec" onclick="document.getElementById('importFile').click()">⬆ Importar</button>
+    <input type="file" id="importFile" accept=".json,application/json" style="display:none" onchange="importState(event)">
   </div>
 
   <p class="footer">Blanca &amp; Chris — desde 2015</p>
@@ -823,9 +901,95 @@ const CATEGORIES = [
   }
 ];
 
+
+/* ---------- Cartas adicionales ---------- */
+const EXTRA_CARDS = {
+  0: [
+    { text: "¿Qué conversación te gustaría que tuviéramos más a menudo?", sub: null },
+    { text: "¿En qué momento de tu vida te habría gustado conocerme ya?", sub: "¿Qué habría cambiado?" },
+    { text: "¿Qué crees que diría de nosotros alguien que nos observara durante una semana entera?", sub: null },
+    { text: "¿Cuál ha sido la decisión más difícil que hemos tomado juntos — y la tomarías igual hoy?", sub: null },
+    { text: "¿Qué necesitas de mí cuando tienes un mal día — aunque nunca me lo hayas pedido?", sub: "Escuchar sin intentar arreglar nada." },
+    { text: "¿Qué tradición de tu infancia te gustaría que adoptáramos nosotros?", sub: null },
+    { text: "Si nuestra relación tuviera un lema, ¿cuál sería?", sub: "En español, en francés — o en los dos." },
+    { text: "¿Qué te gustaría que la gente dijera de nosotros cuando no estamos delante?", sub: null }
+  ],
+  1: [
+    { text: "El juego de las predicciones", sub: "Cada uno escribe 3 predicciones sobre el otro para el próximo mes. Se guardan en un sobre. Se comprueban a final de mes." },
+    { text: "Construcción a ciegas", sub: "Uno describe un dibujo simple sin nombrarlo ('una línea curva arriba a la izquierda...'). El otro dibuja siguiendo las instrucciones. Comparad." },
+    { text: "El reto del camarero", sub: "En vuestro próximo restaurante, cada uno pide por el otro. Sin consultar. Hay que comerse lo que llegue." },
+    { text: "¿Quién conoce mejor Zaragoza?", sub: "10 preguntas sobre la ciudad: calles, historia, bares, estatuas. Las preparáis por turnos. El perdedor invita al vermut." },
+    { text: "Memoria fotográfica", sub: "Observad una foto vuestra durante 10 segundos. Cerradla. Preguntas sobre los detalles: ¿qué llevaba puesto? ¿qué había detrás?" },
+    { text: "El alfabeto de nosotros", sub: "Por turnos, de la A a la Z: una palabra que tenga que ver con vuestra historia. Sin saltarse letras. La Ñ y la W también cuentan." },
+    { text: "Piedra, papel, tijera — con prendas", sub: "Al mejor de 7. Cada victoria, una prenda pequeña: preparar el café mañana, elegir la peli, un masaje de 5 minutos..." },
+    { text: "Adivina el precio", sub: "Como 'El precio justo': uno saca productos de la compra, el otro adivina el precio exacto del ticket. El más cercano gana." }
+  ],
+  2: [
+    { text: "Amanecer en la Plaza del Pilar", sub: "La plaza vacía a primera hora, sin turistas, con la luz baja sobre la basílica. Café y churros después." },
+    { text: "Un día en Teruel", sub: "El mudéjar, la leyenda de Los Amantes, la escalinata. A 2h de Zaragoza. Teruel existe — comprobadlo." },
+    { text: "El Acuario de Zaragoza", sub: "El acuario fluvial más grande de Europa, herencia de la Expo. Perfecto para una tarde de mal tiempo." },
+    { text: "Galacho de Juslibol", sub: "Reserva natural a 15 minutos de Zaragoza: lagunas, aves, el escarpe sobre el Ebro. Ideal para una mañana de domingo." },
+    { text: "Ruta de tapas inventada", sub: "Tres bares en los que no hayáis entrado nunca. Una tapa y una bebida por bar. Puntuad cada parada del 1 al 10." },
+    { text: "Tarde en el Parque del Agua", sub: "Alquilad bicis o simplemente caminad junto al meandro del Ebro. Acabad con un helado o un vino en alguna terraza." },
+    { text: "Tren a Huesca", sub: "Menos de 1h. El casco antiguo, la catedral, un buen menú del día. Una escapada sin coche y sin planificación." },
+    { text: "Un día en Soria", sub: "Machado, el Duero, San Juan de Duero, la calle Mayor. Pequeña, tranquila y llena de poesía. A 2h de Zaragoza." }
+  ],
+  3: [
+    { text: "El brindis de los jueves", sub: "Cada jueves por la noche, un brindis — agua, vino o té, da igual — por algo concreto de la semana. Por turnos." },
+    { text: "La señal del mal día", sub: "Acordad una palabra o gesto que signifique 'hoy necesito mimos, no consejos'. Usadla sin explicaciones. El otro responde sin preguntar." },
+    { text: "La foto del cielo", sub: "Cuando uno vea un cielo bonito — amanecer, tormenta, luna — foto y envío inmediato al otro. Sin texto. Solo el cielo." },
+    { text: "El 'algo nuevo' del mes", sub: "Una vez al mes, probad juntos algo que ninguno haya hecho nunca: un alimento, un lugar, una actividad. Apuntadlo en una lista." },
+    { text: "La frase del libro", sub: "Cuando uno lea algo que le guste de verdad — libro, artículo, lo que sea — lo lee en voz alta al otro en ese momento." },
+    { text: "El café de las 18h del domingo", sub: "Domingo por la tarde, ese momento gris antes del lunes: un café o té juntos, sentados, sin pantallas. 20 minutos que cambian el ánimo." },
+    { text: "El minuto de gratitud del sábado", sub: "Cada sábado por la mañana: un minuto cada uno diciendo lo que agradece de la semana. Sin interrumpir." },
+    { text: "El 'plan secreto' trimestral", sub: "Cada tres meses, uno organiza una mini-sorpresa por turnos: el otro solo sabe la fecha y qué ropa ponerse." }
+  ],
+  4: [
+    { text: "Escribir con el dedo en la espalda", sub: "Palabras cortas, letra a letra. El otro adivina. Empezar fácil. Acabar con una frase entera." },
+    { text: "Contarse qué os enamora hoy", sub: "No hace 10 años — hoy. Del otro tal y como es ahora, con sus canas, sus manías y sus rutinas." },
+    { text: "Cepillarse o peinarse el pelo el uno al otro", sub: "Un gesto antiguo, casi olvidado. Despacio, sin prisa. Más íntimo de lo que parece." },
+    { text: "Dormir agarrados de la mano", sub: "O al menos quedarse dormidos así. Una noche entera. Como al principio." },
+    { text: "La lista de 'gracias por aguantarme cuando...'", sub: "Cada uno escribe 3 momentos en los que el otro tuvo paciencia de verdad. Se leen en voz alta. Risas y ternura garantizadas." },
+    { text: "Ver vídeos antiguos juntos", sub: "Esos vídeos de móvil que nunca se vuelven a mirar. Una tarde, un sofá, una manta. Dejar que hablen solos." },
+    { text: "Elegir un perfume para el otro", sub: "Id juntos a una perfumería. Cada uno elige un aroma para el otro — sin que opine. Se lleva puesto en la próxima cita." }
+  ],
+  5: [
+    { text: "El año sabático imaginario", sub: "Si tuvierais un año entero libre, con la vida pagada: ¿qué haríais mes a mes? Diseñadlo en serio. Quizás algo sea posible de verdad." },
+    { text: "La cápsula del tiempo", sub: "Una caja con objetos, fotos y una carta de cada uno. Se cierra y se esconde. Fecha de apertura: dentro de 5 años. Apuntadla en el calendario." },
+    { text: "Un curso online juntos", sub: "Cocina, historia del arte, astronomía, fotografía... Un curso corto que hagáis a la vez, cada uno a su ritmo, comentándolo." },
+    { text: "Las mini-jubilaciones", sub: "Una semana al año viviendo como si ya estuvierais jubilados: ritmo lento, paseos, siestas, cero obligaciones. Un ensayo general." },
+    { text: "Apadrinad algo juntos", sub: "Un olivo, una colmena, un animal de un santuario, una viña. Algo vivo, lejos de casa, que sea 'vuestro' y se visite una vez al año." },
+    { text: "Aprended fotografía juntos", sub: "Un curso de iniciación o simplemente un libro y práctica. Objetivo: que las fotos de vuestros viajes den un salto de calidad." },
+    { text: "El fin de semana de los sueños aplazados", sub: "Cada uno rescata un plan que siempre se pospone. Se eligen dos fechas en el calendario — ahora mismo — y se bloquean." }
+  ],
+  6: [
+    { text: "¿Qué manía mía te hizo gracia al principio?", sub: "¿Y ahora — te sigue haciendo gracia?" },
+    { text: "¿Recuerdas un día de lluvia que pasamos especialmente bien?", sub: "Los mejores recuerdos no siempre tienen sol." },
+    { text: "¿Cuál fue la primera canción que escuchamos juntos?", sub: "Si no os acordáis, decidid una ahora — y que sea oficial." },
+    { text: "¿Cuál es la comida más memorable que hemos compartido en casa?", sub: "No en un restaurante — en nuestra mesa, en nuestra cocina." },
+    { text: "¿Cuál es el plan que salió fatal pero que ahora recordamos con risa?", sub: "El desastre de ayer es la anécdota de hoy." },
+    { text: "¿Qué palabra o expresión mía se te ha pegado?", sub: "¿En español, en francés — o en esa mezcla nuestra?" },
+    { text: "¿Recuerdas la primera vez que te quedaste dormido/a a mi lado?", sub: "¿Dónde fue? ¿Qué sentiste al despertar?" },
+    { text: "¿Qué detalle de nuestros primeros tiempos juntos recuerdas con más cariño?", sub: "Algo pequeño. Un objeto, un gesto, una costumbre que ya no existe." }
+  ],
+  7: [
+    { text: "El concurso de imitaciones mutuas", sub: "Cada uno imita al otro en una situación típica: al teléfono, conduciendo, eligiendo restaurante. Con cariño — pero sin piedad." },
+    { text: "Lectura dramática del ticket de la compra", sub: "Como si fuera Shakespeare. Con pausas, intensidad y lágrimas en 'papel higiénico, 3,45€'." },
+    { text: "El juego del 'sí, y además...'", sub: "Regla de improvisación: uno propone algo absurdo, el otro acepta y añade. 'Nos mudamos a Marte.' 'Sí, y además abrimos un bar de tapas.' 5 minutos." },
+    { text: "Batalla de datos inútiles", sub: "Por turnos, el dato más inútil que conozcáis. El otro puntúa la inutilidad del 1 al 10. Gana el más absurdamente preciso." },
+    { text: "Inventad apodos nuevos", sub: "Prohibidos los de siempre. Cada uno propone 3 apodos nuevos para el otro. Se vota. El ganador se usa una semana entera." },
+    { text: "El telediario de nuestra casa", sub: "Presentad las 'noticias' de vuestra semana doméstica con tono de informativo serio. Titulares, conexión en directo con la cocina, el tiempo." },
+    { text: "Hablar solo con preguntas", sub: "Una conversación entera donde cada frase debe ser una pregunta. ¿Empezamos? ¿Quién pierde primero? ¿Qué apostamos?" },
+    { text: "Poned voz a vuestras fotos antiguas", sub: "Elegid 5 fotos y inventad lo que estabais pensando o diciendo en ese momento. Cuanto más absurdo, mejor." }
+  ]
+};
+Object.keys(EXTRA_CARDS).forEach(k => {
+  CATEGORIES[k].items.push(...EXTRA_CARDS[k]);
+});
+
 /* ---------- État persistant ---------- */
 const STORE_KEY = 'nd_state_v1';
-let state = { usedIndices: {}, currentCat: null, favorites: [] };
+let state = { usedIndices: {}, currentCat: null, favorites: [], duel: { on: false, b: 0, c: 0 } };
 
 (function loadState() {
   try {
@@ -1056,6 +1220,90 @@ function updateStats() {
   document.getElementById('stats').textContent = txt;
 }
 
+/* ---------- Modo duelo ---------- */
+function renderDuel() {
+  const d = state.duel || (state.duel = { on: false, b: 0, c: 0 });
+  document.getElementById('duelPanel').classList.toggle('on', d.on);
+  document.getElementById('btnDuel').classList.toggle('duel-on', d.on);
+  document.getElementById('scoreB').textContent = d.b;
+  document.getElementById('scoreC').textContent = d.c;
+}
+
+function toggleDuel() {
+  state.duel.on = !state.duel.on;
+  saveState();
+  renderDuel();
+  if (state.duel.on) toast('⚔ Modo duelo activado — ¡que gane el mejor!');
+}
+
+function duelPoint(who) {
+  state.duel[who]++;
+  saveState();
+  renderDuel();
+}
+
+function duelReset() {
+  state.duel.b = 0; state.duel.c = 0;
+  saveState();
+  renderDuel();
+  toast('Marcador a cero');
+}
+
+/* ---------- Exportar / Importar ---------- */
+function exportState() {
+  const payload = { app: 'nosotros-dos', version: 1, date: new Date().toISOString(), state };
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: 'application/json' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'nosotros-dos-' + new Date().toISOString().slice(0, 10) + '.json';
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 2000);
+  toast('⬇ Copia exportada');
+}
+
+function importState(ev) {
+  const file = ev.target.files && ev.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = () => {
+    try {
+      const payload = JSON.parse(reader.result);
+      const s = payload && payload.app === 'nosotros-dos' ? payload.state : payload;
+      if (!s || typeof s !== 'object' || !('favorites' in s)) throw new Error('formato');
+      // Fusión: se combinan las listas sin duplicar, se conserva el progreso más avanzado
+      const merged = { usedIndices: {}, currentCat: s.currentCat ?? state.currentCat, favorites: [], duel: s.duel || state.duel };
+      const allCats = new Set([...Object.keys(state.usedIndices), ...Object.keys(s.usedIndices || {})]);
+      allCats.forEach(k => {
+        merged.usedIndices[k] = [...new Set([...(state.usedIndices[k] || []), ...((s.usedIndices || {})[k] || [])])];
+      });
+      const seen = new Set();
+      [...state.favorites, ...(s.favorites || [])].forEach(f => {
+        if (!f || !f.text || seen.has(f.text)) {
+          if (f && f.text && f.done) { const e = merged.favorites.find(x => x.text === f.text); if (e) e.done = true; }
+          return;
+        }
+        seen.add(f.text);
+        merged.favorites.push({ catLabel: f.catLabel || '', text: f.text, catId: f.catId ?? 0, done: !!f.done });
+      });
+      state = merged;
+      saveState();
+      renderFavs(); renderDuel(); updateStats();
+      if (state.currentCat !== null) {
+        document.querySelectorAll('.cat-btn').forEach((b, i) => b.classList.toggle('active', i === state.currentCat));
+        updateProgressBar();
+      }
+      toast('⬆ Copia importada y fusionada');
+    } catch (e) {
+      toast('No se pudo leer el archivo');
+    }
+    ev.target.value = '';
+  };
+  reader.readAsText(file);
+}
+
 /* ---------- Toast ---------- */
 let toastTimer = null;
 function toast(msg) {
@@ -1072,6 +1320,7 @@ if (state.currentCat !== null) {
   updateProgressBar();
 }
 renderFavs();
+renderDuel();
 updateStats();
 
 if ('serviceWorker' in navigator) {
