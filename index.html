@@ -5,502 +5,427 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Nosotros Dos</title>
 <meta name="description" content="Blanca y Chris — Preguntas, retos, salidas y rituales para dos">
-<meta name="theme-color" content="#c4714a">
+<meta name="theme-color" content="#241b2f">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Nosotros Dos">
 <link rel="apple-touch-icon" href="icon-180.png">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32.png">
 <link rel="manifest" href="manifest.json">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400;1,9..144,500&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
   :root {
-    --cream: #faf6f0;
-    --warm: #f5ede0;
-    --terracotta: #c4714a;
-    --terra-light: #e8a07a;
-    --terra-dark: #9a4f2e;
-    --ink: #2a1f1a;
-    --ink-soft: #5a4a40;
-    --gold: #c9a84c;
-    --gold-light: #e8d49a;
-    --sage: #7a9e7e;
-    --blush: #d4908a;
-    --indigo: #5c6b8a;
+    --noche: #241b2f;
+    --noche2: #2e2340;
+    --papel: #f7efe1;
+    --papel2: #efe4d0;
+    --tinta: #2b2133;
+    --tinta-suave: #5e5368;
+    --oro: #d9a441;
+    --oro-claro: #ecc878;
+    --rosa: #e2788c;
+    --crema-texto: #efe7da;
+    --crema-suave: #b9aec6;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--cream);
-    color: var(--ink);
+    font-family: 'Figtree', sans-serif;
+    background:
+      radial-gradient(ellipse at 50% -10%, #3a2c50 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 100%, rgba(217,164,65,0.10) 0%, transparent 50%),
+      var(--noche);
+    background-attachment: fixed;
+    color: var(--crema-texto);
     min-height: 100vh;
     overflow-x: hidden;
   }
 
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      radial-gradient(ellipse at 20% 20%, rgba(196,113,74,0.06) 0%, transparent 60%),
-      radial-gradient(ellipse at 80% 80%, rgba(201,168,76,0.06) 0%, transparent 60%);
-    pointer-events: none;
-    z-index: 0;
+  /* Étoiles discrètes */
+  .stars {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
   }
-
-  /* Floating hearts */
-  .hearts-bg {
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 0;
-    overflow: hidden;
+  .star {
+    position: absolute; border-radius: 50%;
+    background: var(--oro-claro);
+    animation: twinkle 4s ease-in-out infinite;
   }
-
-  .heart-float {
-    position: absolute;
-    font-size: 1rem;
-    opacity: 0;
-    animation: floatHeart linear infinite;
-    user-select: none;
-  }
-
-  @keyframes floatHeart {
-    0%   { transform: translateY(110vh) scale(0.6) rotate(-15deg); opacity: 0; }
-    10%  { opacity: 0.18; }
-    90%  { opacity: 0.12; }
-    100% { transform: translateY(-10vh) scale(1.1) rotate(15deg); opacity: 0; }
+  @keyframes twinkle {
+    0%,100% { opacity: 0.12; } 50% { opacity: 0.5; }
   }
 
   .app {
-    position: relative;
-    z-index: 1;
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 0 20px 60px;
+    position: relative; z-index: 1;
+    max-width: 640px; margin: 0 auto;
+    padding: 0 18px 70px;
   }
 
-  /* Header */
-  header {
-    text-align: center;
-    padding: 50px 0 36px;
-    position: relative;
-  }
+  /* ---------- Header ---------- */
+  header { text-align: center; padding: 40px 0 10px; }
 
-  .header-hearts {
-    font-size: 1.4rem;
-    letter-spacing: 10px;
-    color: var(--terracotta);
-    opacity: 0.55;
-    margin-bottom: 10px;
-    display: block;
+  .monogram {
+    width: 64px; height: 64px; margin: 0 auto 14px;
+    border: 1.5px solid var(--oro);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 1.15rem; color: var(--oro-claro);
+    letter-spacing: 1px;
+    box-shadow: 0 0 0 5px rgba(217,164,65,0.08), 0 0 30px rgba(217,164,65,0.12);
   }
 
   h1 {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(2.4rem, 6vw, 3.6rem);
-    font-weight: 400;
-    color: var(--ink);
-    line-height: 1.1;
+    font-family: 'Fraunces', serif;
+    font-size: clamp(2.5rem, 7vw, 3.4rem);
+    font-weight: 400; line-height: 1.05;
+    color: var(--crema-texto);
   }
-
-  h1 em {
-    font-style: italic;
-    color: var(--terracotta);
-  }
+  h1 em { font-style: italic; color: var(--oro-claro); }
 
   .header-sub {
-    font-size: 0.87rem;
-    color: var(--ink-soft);
-    margin-top: 10px;
-    font-weight: 300;
-    letter-spacing: 0.5px;
+    font-size: 0.95rem; color: var(--crema-suave);
+    margin-top: 10px; letter-spacing: 0.4px;
   }
 
-  .header-names {
-    font-family: 'Playfair Display', serif;
-    font-style: italic;
-    font-size: 1.15rem;
-    color: var(--terracotta);
-    margin-top: 8px;
-    letter-spacing: 1px;
-    opacity: 0.85;
+  /* ---------- Carta del día ---------- */
+  .daily {
+    margin: 26px 0 6px;
+    width: 100%;
+    background: linear-gradient(135deg, rgba(217,164,65,0.14), rgba(226,120,140,0.10));
+    border: 1px solid rgba(217,164,65,0.35);
+    border-radius: 14px;
+    padding: 13px 16px;
+    display: flex; align-items: center; gap: 12px;
+    cursor: pointer; color: var(--crema-texto);
+    font-family: 'Figtree', sans-serif; font-size: 0.95rem;
+    text-align: left;
+    transition: border-color 0.2s, transform 0.2s;
+  }
+  .daily:hover { border-color: var(--oro); transform: translateY(-1px); }
+  .daily-star { font-size: 1.3rem; flex-shrink: 0; }
+  .daily-label {
+    display: block; font-size: 0.72rem; text-transform: uppercase;
+    letter-spacing: 1.6px; color: var(--oro-claro); margin-bottom: 2px;
   }
 
-  .header-deco {
-    margin-top: 18px;
-    font-size: 0.95rem;
-    color: var(--terracotta);
-    opacity: 0.35;
-    letter-spacing: 6px;
-  }
-
-  /* Categories */
+  /* ---------- Catégories ---------- */
   .categories {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin: 32px 0 24px;
+    display: flex; flex-wrap: wrap; gap: 8px;
+    justify-content: center; margin: 22px 0 22px;
   }
 
   .cat-btn {
-    border: none;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.82rem;
-    font-weight: 500;
-    padding: 9px 18px;
-    border-radius: 100px;
-    transition: all 0.22s ease;
-    letter-spacing: 0.3px;
-    position: relative;
+    border: 1px solid transparent; cursor: pointer;
+    font-family: 'Figtree', sans-serif;
+    font-size: 0.92rem; font-weight: 500;
+    padding: 10px 16px; border-radius: 100px;
+    transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    letter-spacing: 0.2px;
+    background: rgba(247,239,225,0.07);
+    color: var(--crema-texto);
   }
+  .cat-btn:hover { transform: translateY(-1px); background: rgba(247,239,225,0.12); }
+  .cat-btn.active { transform: scale(1.05); font-weight: 600; box-shadow: 0 6px 22px rgba(0,0,0,0.35); }
 
-  .cat-btn.active {
-    transform: scale(1.06);
-    box-shadow: 0 4px 18px rgba(0,0,0,0.14);
+  .cat-0.active { background: #c4714a; color: #fff; }
+  .cat-1.active { background: #6a9e6e; color: #fff; }
+  .cat-2.active { background: #5c6b9a; color: #fff; }
+  .cat-3.active { background: #d9a441; color: #2b2133; }
+  .cat-4.active { background: #d4798a; color: #fff; }
+  .cat-5.active { background: #7a6ab0; color: #fff; }
+  .cat-6.active { background: #3a9a80; color: #fff; }
+  .cat-7.active { background: #b08850; color: #fff; }
+
+  /* ---------- Zone carte + paquet ---------- */
+  .table { perspective: 1100px; position: relative; min-height: 320px; margin: 0 0 20px; }
+
+  .deck { position: absolute; inset: 0; }
+  .card-back {
+    position: absolute; inset: 0;
+    background:
+      repeating-linear-gradient(45deg, rgba(217,164,65,0.06) 0 8px, transparent 8px 16px),
+      linear-gradient(160deg, #3a2c50, #2e2340);
+    border: 1px solid rgba(217,164,65,0.35);
+    border-radius: 20px;
+    display: flex; align-items: center; justify-content: center;
   }
-
-  .cat-btn:hover:not(.active) { transform: scale(1.03); }
-
-  .cat-0 { background: #fde8dc; color: #8a3a20; }
-  .cat-0.active { background: var(--terracotta); color: white; }
-  .cat-1 { background: #e8f0e0; color: #3a5e30; }
-  .cat-1.active { background: var(--sage); color: white; }
-  .cat-2 { background: #e0e6f0; color: #2a3d5e; }
-  .cat-2.active { background: var(--indigo); color: white; }
-  .cat-3 { background: #f5e8d8; color: #7a4820; }
-  .cat-3.active { background: var(--gold); color: white; }
-  .cat-4 { background: #f0e0e0; color: #7a2e2e; }
-  .cat-4.active { background: var(--blush); color: white; }
-  .cat-5 { background: #e8e0f0; color: #3a2a6a; }
-  .cat-5.active { background: #7a6aaa; color: white; }
-  .cat-6 { background: #e0f0ec; color: #1a5a48; }
-  .cat-6.active { background: #3a8a72; color: white; }
-  .cat-7 { background: #f0e8d8; color: #5a3e1a; }
-  .cat-7.active { background: #a07840; color: white; }
-
-  /* Progress dots */
-  .progress-bar {
-    margin: 0 0 20px;
-    text-align: center;
-    min-height: 36px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 8px;
+  .card-back::before {
+    content: ''; position: absolute; inset: 10px;
+    border: 1px solid rgba(217,164,65,0.3); border-radius: 14px;
   }
-
-  .progress-label {
-    font-size: 0.75rem;
-    color: var(--ink-soft);
-    opacity: 0.55;
-    letter-spacing: 0.3px;
+  .card-back .cb-mono {
+    font-family: 'Fraunces', serif; font-style: italic;
+    color: var(--oro-claro); font-size: 1.5rem; letter-spacing: 2px;
+    opacity: 0.9;
   }
-
-  .progress-dots {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 5px;
-    justify-content: center;
-    max-width: 500px;
-  }
-
-  .dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(90,74,64,0.15);
-    transition: all 0.3s ease;
-    flex-shrink: 0;
-  }
-
-  .dot.seen {
-    background: var(--terracotta);
-    transform: scale(1.1);
-  }
-
-  .dot.heart {
-    background: none;
-    font-size: 8px;
-    width: 10px;
-    height: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  /* Card area */
-  .card-area {
-    position: relative;
-    min-height: 290px;
-    margin: 0 0 22px;
-  }
+  .card-back:nth-child(1) { transform: translateY(10px) rotate(-2.2deg); opacity: 0.5; }
+  .card-back:nth-child(2) { transform: translateY(5px) rotate(1.6deg); opacity: 0.75; }
+  .card-back:nth-child(3) { transform: translateY(0) rotate(0deg); }
 
   .card {
-    background: white;
-    border-radius: 20px;
-    padding: 38px 44px;
-    box-shadow: 0 8px 40px rgba(42,31,26,0.08), 0 2px 8px rgba(42,31,26,0.04);
     position: relative;
+    background: linear-gradient(170deg, var(--papel), var(--papel2));
+    color: var(--tinta);
+    border-radius: 20px;
+    padding: 40px 36px 56px;
+    min-height: 320px;
+    box-shadow: 0 18px 50px rgba(0,0,0,0.45), 0 2px 10px rgba(0,0,0,0.3);
     overflow: hidden;
-    animation: cardIn 0.4s cubic-bezier(0.34,1.56,0.64,1);
+    transform-origin: center;
+    animation: flipIn 0.55s cubic-bezier(0.3, 1.3, 0.5, 1);
+    display: flex; flex-direction: column; justify-content: center;
   }
-
-  @keyframes cardIn {
-    from { opacity: 0; transform: translateY(18px) scale(0.96); }
-    to   { opacity: 1; transform: translateY(0) scale(1); }
+  @keyframes flipIn {
+    0%   { transform: rotateY(-92deg) translateX(-20px); opacity: 0; }
+    100% { transform: rotateY(0) translateX(0); opacity: 1; }
   }
 
   .card::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 4px;
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px;
   }
-
-  /* Decorative heart inside card */
-  .card::after {
-    content: '♥';
-    position: absolute;
-    bottom: 16px;
-    left: 22px;
-    font-size: 0.8rem;
-    color: var(--terracotta);
-    opacity: 0.15;
-  }
-
-  .card.color-0::before { background: linear-gradient(90deg, var(--terracotta), var(--terra-light)); }
-  .card.color-1::before { background: linear-gradient(90deg, var(--sage), #a8d4ac); }
-  .card.color-2::before { background: linear-gradient(90deg, var(--indigo), #8a9eba); }
-  .card.color-3::before { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
-  .card.color-4::before { background: linear-gradient(90deg, var(--blush), #e8b0aa); }
-  .card.color-5::before { background: linear-gradient(90deg, #7a6aaa, #aaa0cc); }
-  .card.color-6::before { background: linear-gradient(90deg, #3a8a72, #6abaa4); }
-  .card.color-7::before { background: linear-gradient(90deg, #a07840, #d4b07a); }
+  .card.color-0::before { background: linear-gradient(90deg, #c4714a, #e8a07a); }
+  .card.color-1::before { background: linear-gradient(90deg, #6a9e6e, #a8d4ac); }
+  .card.color-2::before { background: linear-gradient(90deg, #5c6b9a, #8a9eba); }
+  .card.color-3::before { background: linear-gradient(90deg, #d9a441, #ecc878); }
+  .card.color-4::before { background: linear-gradient(90deg, #d4798a, #e8b0bb); }
+  .card.color-5::before { background: linear-gradient(90deg, #7a6ab0, #aaa0cc); }
+  .card.color-6::before { background: linear-gradient(90deg, #3a9a80, #6abaa4); }
+  .card.color-7::before { background: linear-gradient(90deg, #b08850, #d4b07a); }
 
   .card-tag {
-    font-size: 0.72rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1.5px;
-    margin-bottom: 18px;
-    opacity: 0.55;
+    font-size: 0.74rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 2px; margin-bottom: 16px; color: var(--tinta-suave);
   }
 
   .card-text {
-    font-family: 'Playfair Display', serif;
-    font-size: clamp(1.15rem, 2.8vw, 1.5rem);
-    line-height: 1.58;
-    color: var(--ink);
+    font-family: 'Fraunces', serif;
+    font-size: clamp(1.35rem, 4vw, 1.7rem);
+    line-height: 1.45; color: var(--tinta);
   }
 
   .card-sub {
-    margin-top: 16px;
-    font-size: 0.87rem;
-    color: var(--ink-soft);
-    line-height: 1.62;
-    font-weight: 300;
+    margin-top: 16px; font-size: 0.97rem;
+    color: var(--tinta-suave); line-height: 1.6;
   }
 
   .card-counter {
-    position: absolute;
-    bottom: 18px;
-    right: 22px;
-    font-size: 0.73rem;
-    color: var(--ink-soft);
-    opacity: 0.35;
+    position: absolute; bottom: 16px; right: 20px;
+    font-size: 0.78rem; color: var(--tinta-suave); opacity: 0.6;
+  }
+  .card-hint {
+    position: absolute; bottom: 16px; left: 20px;
+    font-size: 0.75rem; color: var(--tinta-suave); opacity: 0.45;
   }
 
-  /* Empty state */
+  /* État vide */
   .empty {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 270px;
-    text-align: center;
-    color: var(--ink-soft);
+    min-height: 320px;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center; text-align: center;
+    position: relative;
   }
+  .empty .card-back-static {
+    position: absolute; inset: 0; border-radius: 20px;
+  }
+  .empty-content { position: relative; z-index: 1; }
+  .empty-text {
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 1.4rem; color: var(--crema-texto);
+  }
+  .empty-sub { font-size: 0.92rem; margin-top: 8px; color: var(--crema-suave); }
 
-  .empty-icon { font-size: 2.8rem; margin-bottom: 14px; }
-  .empty-text { font-family: 'Playfair Display', serif; font-size: 1.25rem; font-style: italic; }
-  .empty-sub { font-size: 0.84rem; margin-top: 8px; opacity: 0.65; }
-
-  /* Buttons */
+  /* ---------- Boutons ---------- */
   .actions {
-    display: flex;
-    gap: 12px;
-    justify-content: center;
-    flex-wrap: wrap;
+    display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;
   }
 
   .btn-main {
-    background: var(--terracotta);
-    color: white;
-    border: none;
-    padding: 15px 34px;
-    border-radius: 100px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.93rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    letter-spacing: 0.3px;
-    box-shadow: 0 4px 20px rgba(196,113,74,0.32);
+    background: linear-gradient(135deg, var(--oro), #c8922f);
+    color: #2b2133;
+    border: none; padding: 16px 36px; border-radius: 100px;
+    font-family: 'Figtree', sans-serif; font-size: 1rem; font-weight: 600;
+    cursor: pointer; letter-spacing: 0.3px;
+    box-shadow: 0 6px 26px rgba(217,164,65,0.35);
+    transition: transform 0.2s, box-shadow 0.2s;
   }
-
-  .btn-main:hover {
-    background: var(--terra-dark);
-    transform: translateY(-2px);
-    box-shadow: 0 8px 28px rgba(196,113,74,0.4);
-  }
-
+  .btn-main:hover { transform: translateY(-2px); box-shadow: 0 10px 32px rgba(217,164,65,0.45); }
   .btn-main:active { transform: translateY(0); }
 
   .btn-sec {
-    background: transparent;
-    color: var(--ink-soft);
-    border: 1.5px solid rgba(90,74,64,0.24);
-    padding: 14px 22px;
-    border-radius: 100px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.87rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
+    background: transparent; color: var(--crema-suave);
+    border: 1.5px solid rgba(239,231,218,0.25);
+    padding: 14px 20px; border-radius: 100px;
+    font-family: 'Figtree', sans-serif; font-size: 0.92rem; font-weight: 500;
+    cursor: pointer; transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .btn-sec:hover {
+    border-color: var(--oro); color: var(--oro-claro);
+    background: rgba(217,164,65,0.08);
   }
 
-  .btn-sec:hover {
-    border-color: var(--terracotta);
-    color: var(--terracotta);
-    background: rgba(196,113,74,0.05);
+  button:focus-visible {
+    outline: 2px solid var(--oro-claro); outline-offset: 2px;
+  }
+
+  /* ---------- Progression ---------- */
+  .progress-bar {
+    margin: 22px 0 0; text-align: center;
+    display: none; flex-direction: column; align-items: center; gap: 8px;
+  }
+  .progress-label { font-size: 0.82rem; color: var(--crema-suave); letter-spacing: 0.3px; }
+  .progress-track {
+    width: min(360px, 80%); height: 5px; border-radius: 100px;
+    background: rgba(239,231,218,0.12); overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%; border-radius: 100px;
+    background: linear-gradient(90deg, var(--oro), var(--rosa));
+    transition: width 0.4s ease;
   }
 
   .stats {
-    text-align: center;
-    margin-top: 18px;
-    font-size: 0.77rem;
-    color: var(--ink-soft);
-    opacity: 0.45;
+    text-align: center; margin-top: 14px;
+    font-size: 0.8rem; color: var(--crema-suave); opacity: 0.6;
   }
 
-  /* Favorites */
+  /* ---------- Notre liste ---------- */
   .favs-section {
-    margin-top: 46px;
-    border-top: 1px solid rgba(90,74,64,0.11);
-    padding-top: 32px;
+    margin-top: 48px;
+    border-top: 1px solid rgba(239,231,218,0.12);
+    padding-top: 30px;
   }
-
   .favs-title {
-    font-family: 'Playfair Display', serif;
-    font-size: 1.15rem;
-    color: var(--ink);
-    margin-bottom: 14px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    font-family: 'Fraunces', serif; font-size: 1.35rem;
+    color: var(--crema-texto); margin-bottom: 4px;
   }
+  .favs-sub { font-size: 0.85rem; color: var(--crema-suave); margin-bottom: 16px; }
 
   .fav-item {
-    background: var(--warm);
-    border-radius: 12px;
-    padding: 13px 16px;
-    margin-bottom: 8px;
-    font-size: 0.87rem;
-    color: var(--ink);
-    line-height: 1.5;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 12px;
-    animation: cardIn 0.3s ease;
+    background: rgba(247,239,225,0.06);
+    border: 1px solid rgba(239,231,218,0.1);
+    border-radius: 14px; padding: 13px 14px; margin-bottom: 8px;
+    font-size: 0.95rem; line-height: 1.5;
+    display: flex; align-items: flex-start; gap: 12px;
+    animation: fadeUp 0.3s ease;
   }
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-  .fav-remove {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--ink-soft);
-    opacity: 0.38;
-    font-size: 0.95rem;
-    flex-shrink: 0;
-    transition: opacity 0.2s;
+  .fav-check {
+    flex-shrink: 0; width: 24px; height: 24px; margin-top: 2px;
+    border: 1.5px solid rgba(239,231,218,0.35); border-radius: 50%;
+    background: none; cursor: pointer; color: transparent;
+    font-size: 0.8rem; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s;
   }
-  .fav-remove:hover { opacity: 0.75; }
+  .fav-item.done .fav-check { background: var(--oro); border-color: var(--oro); color: #2b2133; }
+  .fav-item.done .fav-text { text-decoration: line-through; opacity: 0.55; }
 
+  .fav-body { flex: 1; }
   .fav-cat {
-    font-size: 0.7rem;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    opacity: 0.48;
-    margin-bottom: 3px;
+    font-size: 0.7rem; font-weight: 600; text-transform: uppercase;
+    letter-spacing: 1.2px; color: var(--oro-claro); opacity: 0.8; margin-bottom: 3px;
   }
+  .fav-remove {
+    background: none; border: none; cursor: pointer;
+    color: var(--crema-suave); opacity: 0.4; font-size: 1rem;
+    flex-shrink: 0; transition: opacity 0.2s; padding: 2px 4px;
+  }
+  .fav-remove:hover { opacity: 0.9; }
 
-  /* Footer hearts */
-  .footer-hearts {
-    text-align: center;
-    margin-top: 48px;
-    font-size: 1rem;
-    color: var(--terracotta);
-    opacity: 0.25;
-    letter-spacing: 8px;
+  /* ---------- Toast ---------- */
+  .toast {
+    position: fixed; bottom: 28px; left: 50%;
+    transform: translateX(-50%) translateY(80px);
+    background: var(--papel); color: var(--tinta);
+    padding: 12px 22px; border-radius: 100px;
+    font-size: 0.9rem; font-weight: 500;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.45);
+    opacity: 0; transition: transform 0.3s, opacity 0.3s;
+    z-index: 50; pointer-events: none; max-width: 86vw; text-align: center;
+  }
+  .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+  .footer {
+    text-align: center; margin-top: 50px;
+    font-family: 'Fraunces', serif; font-style: italic;
+    font-size: 0.95rem; color: var(--oro-claro); opacity: 0.45;
+    letter-spacing: 1px;
   }
 
   @media (max-width: 480px) {
-    .card { padding: 26px 22px; }
-    .btn-main { padding: 13px 26px; }
+    .card { padding: 30px 24px 54px; }
+    .btn-main { padding: 14px 28px; }
+    header { padding-top: 30px; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after { animation: none !important; transition: none !important; }
   }
 </style>
 </head>
 <body>
 
-<!-- Floating hearts background -->
-<div class="hearts-bg" id="heartsbg"></div>
+<div class="stars" id="stars"></div>
 
 <div class="app">
   <header>
-    <span class="header-hearts">♥ ♡ ♥</span>
+    <div class="monogram">B ♥ C</div>
     <h1>Nosotros <em>Dos</em></h1>
-    <p class="header-names">Blanca &amp; Chris</p>
-    <p class="header-sub">Preguntas · Retos · Salidas · Juegos · Rituales</p>
-    <div class="header-deco">❧ ❧ ❧</div>
+    <p class="header-sub">Preguntas · Retos · Salidas · Rituales · Recuerdos</p>
   </header>
+
+  <button class="daily" id="dailyBtn" onclick="showDaily()">
+    <span class="daily-star">✦</span>
+    <span>
+      <span class="daily-label">Carta del día</span>
+      <span id="dailyPreview">Toca para descubrir la carta de hoy</span>
+    </span>
+  </button>
 
   <div class="categories" id="categories"></div>
 
-  <div class="progress-bar" id="progressBar" style="display:none">
-    <div class="progress-label" id="progressLabel"></div>
-    <div class="progress-dots" id="progressDots"></div>
-  </div>
-
-  <div class="card-area" id="cardArea">
-    <div class="empty">
-      <span class="empty-icon">♡</span>
-      <p class="empty-text">Elige una categoría</p>
-      <p class="empty-sub">y saca una carta</p>
+  <div class="table" id="cardTable">
+    <div class="deck" aria-hidden="true">
+      <div class="card-back"></div>
+      <div class="card-back"></div>
+      <div class="card-back"><span class="cb-mono">B & C</span></div>
+    </div>
+    <div class="card-area" id="cardArea" style="position:relative;">
+      <div class="empty">
+        <div class="empty-content">
+          <p class="empty-text">Elige una categoría</p>
+          <p class="empty-sub">o toca el paquete para sacar una carta al azar</p>
+        </div>
+      </div>
     </div>
   </div>
 
   <div class="actions">
     <button class="btn-main" onclick="draw()">Sacar una carta</button>
-    <button class="btn-sec" id="btnFav" onclick="saveFav()" style="display:none">♡ Guardar</button>
+    <button class="btn-sec" id="btnFav" onclick="saveFav()" style="display:none">♡ A la lista</button>
+    <button class="btn-sec" id="btnShare" onclick="shareCard()" style="display:none">Compartir</button>
     <button class="btn-sec" onclick="randomCategory()">Al azar</button>
-    <button class="btn-sec" id="btnReset" onclick="resetCurrent()">↺ Reiniciar</button>
+    <button class="btn-sec" id="btnReset" onclick="resetCurrent()">↺</button>
+  </div>
+
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-label" id="progressLabel"></div>
+    <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
   </div>
 
   <div class="stats" id="stats"></div>
 
   <div class="favs-section" id="favsSection" style="display:none">
-    <p class="favs-title">♥ Mis favoritas</p>
+    <p class="favs-title">Nuestra lista</p>
+    <p class="favs-sub">Las cartas que habéis guardado — marcad las que ya habéis vivido</p>
     <div id="favsList"></div>
   </div>
 
-  <div class="footer-hearts">♥ ♡ ♥ ♡ ♥</div>
+  <p class="footer">Blanca &amp; Chris — desde 2015</p>
 </div>
+
+<div class="toast" id="toast"></div>
 
 <script>
 const CATEGORIES = [
@@ -572,7 +497,7 @@ const CATEGORIES = [
       { text: "La lista de 10", sub: "Cada uno lista 10 cosas que quiere hacer antes de morir. Se comparan, se buscan puntos en común." },
       { text: "Reto culinario", sub: "Cada uno prepara un plato que el otro nunca ha probado. Se come a ciegas." },
       { text: "Noche 'revivimos la peli'", sub: "Volved a ver una película que visteis juntos al principio de vuestra relación. La conversación está garantizada." },
-      { text: "Imitación en silencio", sub: "Mimad una situación de vuestro día a día. El otro debe adivinar cuál. Regla: sin ningún sonido." },
+      { text: "Imitación en silencio", sub: "Representad con mímica una situación de vuestro día a día. El otro debe adivinar cuál. Regla: sin ningún sonido." },
       { text: "La entrevista imaginaria", sub: "Os entrevistan en una revista sobre vuestra pareja. Responded juntos como si fuera real." },
       { text: "La palabra prohibida", sub: "Elegid una palabra cotidiana (ej: 'bien', 'sí', 'vale'). Durante toda la noche, el que la diga pierde un punto." },
       { text: "Trivia geográfica", sub: "Por turnos, nombrad una ciudad de un país elegido. El primero que no sabe pierde. Se permite el mapa." },
@@ -633,7 +558,7 @@ const CATEGORIES = [
       { text: "Road trip de un día sin GPS", sub: "Dirección vagamente 'norte' o 'sur'. Parad en cuanto algo os llame la atención. De vuelta antes de medianoche." },
       { text: "Observación astronómica nocturna", sub: "Salid de la ciudad una noche de luna nueva. Buscad un punto sin contaminación lumínica. Llevad una manta." },
       { text: "Clases de baile", sub: "Salsa, tango, bachata — da igual. Una iniciación en Zaragoza. Podéis ser malísimos: ese es el objetivo." },
-      { text: "Mercado de productores + cocina improvisada", sub: "Id juntos al mercado por la mañana. Comprad lo que os llame. Volved a casa y cocinar sin receta." },
+      { text: "Mercado de productores + cocina improvisada", sub: "Id juntos al mercado por la mañana. Comprad lo que os llame. Volved a casa y cocinad sin receta." },
       { text: "Día de spa o termas", sub: "Buscad un spa day en Zaragoza o en un hotel de los alrededores. Desconexión total." },
       { text: "Ir a ver un espectáculo en vivo", sub: "Concierto, teatro, comedia, ópera — el estilo da igual. Lo esencial: algo que no habrías elegido solo/a." },
       { text: "Visita a un pueblo de Aragón que no conozcáis", sub: "Sos, Alquézar, Daroca, Rubielos de Mora... Elegid uno al azar en el mapa. Id sin reservar nada." },
@@ -651,7 +576,7 @@ const CATEGORIES = [
       { text: "Visita a una bodega con cata", sub: "Somontano, Campo de Borja o Cariñena — todas a menos de 1h. Reservad una cata guiada." },
       { text: "Tarde de bicicleta por el Ebro", sub: "El carril bici a orillas del Ebro en Zaragoza. Alquilad bicis si no tenéis. Parad donde queráis." },
       { text: "Un domingo en el Mercado Central", sub: "Llegad temprano, comprad sin lista. Desayunad en la barra de algún bar del mercado." },
-      { text: "Fin de semana en Cuenca", sub: "Las casas colgadas, el casco histórico, el silencio. A 3h de Zaragoza. Una joya infravisitada." },
+      { text: "Fin de semana en Cuenca", sub: "Las casas colgadas, el casco histórico, el silencio. A 3h de Zaragoza. Una joya poco visitada." },
       { text: "Noche en un hotel rural de Aragón", sub: "No hace falta ir lejos. Una masía o un hotel con encanto a 1h. Cena, desayuno, paseo matinal." },
       { text: "Visita al Palacio de la Aljafería de noche", sub: "Si hay visitas nocturnas, es una experiencia diferente. Comprobad la programación." },
       { text: "Un día de esquí en Formigal o Candanchú", sub: "Si os apetece en temporada. O simplemente subir a ver la nieve sin esquiar." },
@@ -725,7 +650,7 @@ const CATEGORIES = [
       { text: "Noche de pijamas sin plan", sub: "Quedaos en casa, pedid comida a domicilio, poneos el pijama, ved lo que queráis. Cero presión, cero programa." },
       { text: "El baño o la ducha juntos", sub: "Con velas si queréis. El agua caliente relaja, desata, acerca." },
       { text: "Desayuno en la cama un domingo", sub: "Lo preparáis por turnos. El otro se queda bajo el edredón hasta que todo esté listo." },
-      { text: "Deciros 3 cosas que admiráis el uno del otro — ahora", sub: "No dentro de 10 años. Ahora. En voz alta. Miraderos a los ojos." },
+      { text: "Deciros 3 cosas que admiráis el uno del otro — ahora", sub: "No dentro de 10 años. Ahora. En voz alta. Miraos a los ojos." },
       { text: "Noche de películas antiguas", sub: "Películas de antes de conoceros. Las que fueron importantes para cada uno. El otro descubre una parte de quién erais." },
       { text: "Hacerse una foto juntos como en los viejos tiempos", sub: "Buscad la primera foto que tengáis juntos. Reproducidla exactamente hoy. Mismo gesto, mismo plano." },
       { text: "Escuchar música juntos en silencio", sub: "Un álbum entero, tumbados, sin hacer nada más. Dejar que la música llene el espacio." },
@@ -827,12 +752,12 @@ const CATEGORIES = [
       { text: "¿Recuerdas la primera vez que nos perdimos juntos — literalmente?", sub: "En coche, a pie, en una ciudad... ¿Cómo acabó?" },
       { text: "¿Cuál es el objeto que tienes y que te recuerda a un momento nuestro?", sub: "Buscadlo y mostradlo." },
       { text: "¿Recuerdas alguna vez que me hayas visto llorar?", sub: "¿Qué sentiste?" },
-      { text: "¿Cuál fue el primer viaje que hicisteis juntos al extranjero?", sub: "Contadlo con detalle — el hotel, la comida, lo que salió mal." },
+      { text: "¿Cuál fue el primer viaje que hicimos juntos al extranjero?", sub: "Contadlo con detalle — el hotel, la comida, lo que salió mal." },
       { text: "¿Recuerdas la primera vez que conociste a mi familia?", sub: "¿Qué pensaste? ¿Cómo te sentiste?" },
       { text: "¿Cuál es el cumpleaños que más recuerdas de nuestra historia juntos?", sub: null },
       { text: "¿Recuerdas el primer regalo que te hice?", sub: "¿Qué pensaste cuando lo abriste?" },
       { text: "¿Cuál es la frase mía que más te ha marcado — para bien?", sub: null },
-      { text: "¿Recuerdas la primera vez que dormisteis fuera de casa juntos?", sub: null },
+      { text: "¿Recuerdas la primera vez que dormimos fuera de casa juntos?", sub: null },
       { text: "¿Hay una conversación que hayamos tenido y que recuerdes palabra por palabra?", sub: null },
       { text: "¿Cuál es el momento en que más has sentido que formábamos un equipo?", sub: null },
       { text: "¿Recuerdas algún malentendido tonto que acabó en carcajada?", sub: null },
@@ -840,7 +765,7 @@ const CATEGORIES = [
       { text: "¿Recuerdas la primera vez que me viste enfadado/a de verdad?", sub: "¿Qué pensaste?" },
       { text: "¿Cuál es el momento en que más has sentido que me conoces de verdad?", sub: null },
       { text: "¿Hay alguna foto nuestra que te guste especialmente y que no sea la más obvia?", sub: "Buscadla juntos." },
-      { text: "¿Recuerdas cuándo fue la primera vez que me dijiste 'te quiero'?", sub: "¿Dónde erais? ¿Qué pasó después?" },
+      { text: "¿Recuerdas cuándo fue la primera vez que me dijiste 'te quiero'?", sub: "¿Dónde estabais? ¿Qué pasó después?" },
       { text: "¿Cuál es el momento de nuestra historia en que más has confiado en mí?", sub: null },
       { text: "¿Hay algún lugar de Zaragoza que tenga un significado especial para los dos?", sub: null },
       { text: "¿Recuerdas la primera vez que cocinamos juntos?", sub: "¿Qué hicisteis? ¿Salió bien?" },
@@ -856,14 +781,14 @@ const CATEGORIES = [
       { text: "Impostad un acento extranjero", sub: "Durante toda la noche, habláis con un acento elegido al azar. Inglés, italiano, ruso... Aguantad hasta el final." },
       { text: "Doblaje casero", sub: "Quitad el sonido de una película o serie y doblar los personajes vosotros mismos. Cuanto más dramático, mejor." },
       { text: "Ping-pong de '¿Y si...?'", sub: "Preguntas absurdas por turnos. '¿Y si tuviéramos un cocodrilo de mascota?' El otro responde en serio." },
-      { text: "Inventar una receta imposible", sub: "Dad una vuelta a la nevera y cread una receta con ingredientes que no pegan. Probad el resultado." },
+      { text: "Inventar una receta imposible", sub: "Echad un vistazo a la nevera y cread una receta con ingredientes que no pegan. Probad el resultado." },
       { text: "Noche de karaoke privado", sub: "YouTube, un micro improvisado, y cero vergüenza. Cada uno elige una canción para el otro." },
       { text: "Ver algo de serie cutre juntos", sub: "Nada de documental ni serie seria. Algo completamente malo y asumido." },
       { text: "Cata a ciegas", sub: "Vinos, quesos, chocolates o tés. Uno prepara, el otro prueba con los ojos cerrados e intenta adivinar." },
       { text: "Noche de 'YouTube rabbit hole'", sub: "Partís de un vídeo cualquiera y veis hasta dónde podéis llegar clicando en las sugerencias. Máximo 1h." },
       { text: "Concurso de chistes malos", sub: "Cada uno prepara 5 chistes. Cuanto más malos, mejor. El otro puntúa del 1 al 10 la calidad de lo malo." },
       { text: "Inventar un juego de mesa", sub: "En 20 minutos, inventad las reglas de un juego con lo que tengáis a mano. Jugadlo. Rara vez funciona — ese es el punto." },
-      { text: "Noche de ilusión de lujo", sub: "Pedid vuestra mejor comida a domicilio, poned la mesa como un gran restaurante, música de jazz. Presupuesto de kebab, ambiente de palace." },
+      { text: "Noche de ilusión de lujo", sub: "Pedid vuestra mejor comida a domicilio, poned la mesa como un gran restaurante, música de jazz. Presupuesto de kebab, ambiente de palacio." },
       { text: "El reto 'sin las manos'", sub: "Comed algo intentando no usar las manos. Ciertos alimentos son recomendables, otros no en absoluto." },
       { text: "Retrato del otro en 60 segundos", sub: "Cronómetro activado. Comparad los resultados. Sin piedad." },
       { text: "Rol de personajes históricos", sub: "Elegid un personaje cada uno (sin decirlo). El otro debe adivinar haciendo preguntas de sí/no." },
@@ -871,7 +796,7 @@ const CATEGORIES = [
       { text: "Concurso de baile ridículo", sub: "Cada uno tiene 2 minutos para preparar una coreografía. Se actúa. Se aplaude. Se ríe sin parar." },
       { text: "Inventad un idioma secreto de pareja", sub: "10 palabras o expresiones que solo vosotros entendéis. Usadlas durante una semana." },
       { text: "El reto del monólogo de stand-up", sub: "3 minutos cada uno. El tema: 'vivir con mi pareja'. Sin censura, con amor." },
-      { text: "Adivina la película con solo el argumento resumido en mal", sub: "Explicad el argumento de una película de la forma más confusa posible. El otro adivina." },
+      { text: "Adivina la película con el argumento mal resumido", sub: "Explicad el argumento de una película de la forma más confusa posible. El otro adivina." },
       { text: "Intercambio de roles por una tarde", sub: "Cada uno hace las tareas del otro durante 2 horas. Comentarios prohibidos. Resultados imprevisibles." },
       { text: "El reto del emoji", sub: "Contad vuestra historia de amor usando solo emojis. El otro la interpreta en voz alta." },
       { text: "Actuad una discusión en otro idioma", sub: "En francés, en inglés, o en un idioma inventado. El contenido importa menos que el dramatismo." },
@@ -889,7 +814,7 @@ const CATEGORIES = [
       { text: "El reto del trabalenguas", sub: "Cada uno busca el trabalenguas más difícil en español o en francés. El otro tiene 3 intentos." },
       { text: "Inventad el spot publicitario de vuestra pareja", sub: "30 segundos. Eslogan, beneficios, precio. Actuadlo en serio." },
       { text: "El concurso de caras raras", sub: "Turnos de 30 segundos haciendo la cara más extraña posible. El otro no puede reírse. El primero que ríe pierde." },
-      { text: "Translated con Google Translate", sub: "Escribid una frase romántica, traducidla 5 veces a idiomas distintos y volved al español. Leed el resultado." },
+      { text: "Teléfono roto con Google Translate", sub: "Escribid una frase romántica, traducidla 5 veces a idiomas distintos y volved al español. Leed el resultado." },
       { text: "El reto de los trabalenguas bilingües", sub: "Uno en español, uno en francés. Cronometrad. El más rápido y correcto elige el postre." },
       { text: "Diseñad vuestro escudo heráldico familiar", sub: "Con símbolos que os representen. Un cuartel cada uno, y uno compartido. Explicad cada elección." },
       { text: "Haced una crítica de arte de un dibujo del otro", sub: "El otro dibuja algo en 2 minutos. Vosotros lo analizáis como si fuera una obra maestra en un museo." },
@@ -898,31 +823,69 @@ const CATEGORIES = [
   }
 ];
 
-// State
-let currentCat = null;
-let currentCard = null;
-let usedIndices = {};
-let favorites = JSON.parse(localStorage.getItem('couple_favs_es') || '[]');
+/* ---------- État persistant ---------- */
+const STORE_KEY = 'nd_state_v1';
+let state = { usedIndices: {}, currentCat: null, favorites: [] };
 
-// Floating hearts
-function createHearts() {
-  const container = document.getElementById('heartsbg');
-  const symbols = ['♥', '♡', '❤', '♥', '♡'];
-  for (let i = 0; i < 12; i++) {
-    const h = document.createElement('div');
-    h.className = 'heart-float';
-    h.textContent = symbols[i % symbols.length];
-    h.style.left = (5 + Math.random() * 90) + '%';
-    h.style.fontSize = (0.7 + Math.random() * 0.9) + 'rem';
-    h.style.color = Math.random() > 0.5 ? '#c4714a' : '#d4908a';
-    h.style.animationDuration = (18 + Math.random() * 22) + 's';
-    h.style.animationDelay = (Math.random() * 20) + 's';
-    container.appendChild(h);
-  }
+(function loadState() {
+  try {
+    const raw = localStorage.getItem(STORE_KEY);
+    if (raw) {
+      const s = JSON.parse(raw);
+      if (s && typeof s === 'object') state = Object.assign(state, s);
+    }
+    // Migration des anciens favoris
+    const old = localStorage.getItem('couple_favs_es');
+    if (old && state.favorites.length === 0) {
+      const favs = JSON.parse(old);
+      if (Array.isArray(favs)) state.favorites = favs.map(f => ({ ...f, done: false }));
+      localStorage.removeItem('couple_favs_es');
+      saveState();
+    }
+  } catch (e) { /* état corrompu : on repart de zéro */ }
+})();
+
+function saveState() {
+  try { localStorage.setItem(STORE_KEY, JSON.stringify(state)); } catch (e) {}
 }
-createHearts();
 
-// Init category buttons
+let currentCard = null;
+
+/* ---------- Étoiles ---------- */
+(function createStars() {
+  const c = document.getElementById('stars');
+  for (let i = 0; i < 26; i++) {
+    const s = document.createElement('div');
+    s.className = 'star';
+    const size = 1 + Math.random() * 2;
+    s.style.width = s.style.height = size + 'px';
+    s.style.left = Math.random() * 100 + '%';
+    s.style.top = Math.random() * 100 + '%';
+    s.style.animationDelay = Math.random() * 4 + 's';
+    s.style.animationDuration = (3 + Math.random() * 4) + 's';
+    c.appendChild(s);
+  }
+})();
+
+/* ---------- Carta del día ---------- */
+function dailyCard() {
+  const d = new Date();
+  const seed = d.getFullYear() * 372 + (d.getMonth() + 1) * 31 + d.getDate();
+  let h = seed;
+  h = ((h >> 16) ^ h) * 0x45d9f3b; h = ((h >> 16) ^ h) * 0x45d9f3b; h = (h >> 16) ^ h;
+  const all = [];
+  CATEGORIES.forEach((c, ci) => c.items.forEach((_, ii) => all.push([ci, ii])));
+  const [ci, ii] = all[Math.abs(h) % all.length];
+  return { catId: ci, itemIdx: ii };
+}
+
+function showDaily() {
+  const dc = dailyCard();
+  selectCategory(dc.catId, false);
+  showCard(dc.catId, dc.itemIdx, true);
+}
+
+/* ---------- Catégories ---------- */
 const catContainer = document.getElementById('categories');
 CATEGORIES.forEach((cat, i) => {
   const btn = document.createElement('button');
@@ -932,158 +895,188 @@ CATEGORIES.forEach((cat, i) => {
   catContainer.appendChild(btn);
 });
 
-function selectCategory(id) {
-  currentCat = id;
-  if (!usedIndices[id]) usedIndices[id] = [];
+function selectCategory(id, andDraw = true) {
+  state.currentCat = id;
+  if (!state.usedIndices[id]) state.usedIndices[id] = [];
   document.querySelectorAll('.cat-btn').forEach((b, i) => {
     b.classList.toggle('active', i === id);
   });
   updateProgressBar();
-  draw();
-}
-
-function resetCurrent() {
-  if (currentCat === null) return;
-  usedIndices[currentCat] = [];
-  updateProgressBar();
-  updateStats();
-  // Visual feedback on button
-  const btn = document.getElementById('btnReset');
-  btn.textContent = '✓ Listo';
-  setTimeout(() => { btn.textContent = '↺ Reiniciar'; }, 1400);
-  // Redraw card area to empty state
-  document.getElementById('cardArea').innerHTML = `
-    <div class="empty">
-      <span class="empty-icon">♡</span>
-      <p class="empty-text">Categoría reiniciada</p>
-      <p class="empty-sub">¡Saca una nueva carta!</p>
-    </div>`;
-  document.getElementById('btnFav').style.display = 'none';
+  saveState();
+  if (andDraw) draw();
 }
 
 function randomCategory() {
-  const id = Math.floor(Math.random() * CATEGORIES.length);
-  selectCategory(id);
+  selectCategory(Math.floor(Math.random() * CATEGORIES.length));
 }
 
-function updateProgressBar() {
-  if (currentCat === null) return;
-  const cat = CATEGORIES[currentCat];
-  const total = cat.items.length;
-  const seen = (usedIndices[currentCat] || []);
-  const bar = document.getElementById('progressBar');
-  const label = document.getElementById('progressLabel');
-  const dots = document.getElementById('progressDots');
-
-  bar.style.display = 'flex';
-  label.textContent = `${seen.length} de ${total} cartas vistas`;
-
-  // Build dots — use hearts every 5th dot
-  dots.innerHTML = cat.items.map((_, i) => {
-    const isSeen = seen.includes(i);
-    if ((i + 1) % 5 === 0) {
-      return `<span class="dot heart" title="${i+1}">${isSeen ? '♥' : '♡'}</span>`;
-    }
-    return `<span class="dot ${isSeen ? 'seen' : ''}" title="${i+1}"></span>`;
-  }).join('');
+function resetCurrent() {
+  if (state.currentCat === null) return;
+  state.usedIndices[state.currentCat] = [];
+  saveState();
+  updateProgressBar();
+  updateStats();
+  toast('Categoría reiniciada — paquete barajado de nuevo');
 }
 
+/* ---------- Tirage ---------- */
 function draw() {
-  if (currentCat === null) {
-    randomCategory();
-    return;
-  }
-  const cat = CATEGORIES[currentCat];
-  let pool = cat.items.map((_, i) => i).filter(i => !(usedIndices[currentCat] || []).includes(i));
+  if (state.currentCat === null) { randomCategory(); return; }
+  const cid = state.currentCat;
+  const cat = CATEGORIES[cid];
+  let pool = cat.items.map((_, i) => i).filter(i => !(state.usedIndices[cid] || []).includes(i));
 
   if (pool.length === 0) {
-    usedIndices[currentCat] = [];
+    state.usedIndices[cid] = [];
     pool = cat.items.map((_, i) => i);
+    toast('¡Habéis visto todas! Barajamos de nuevo ♥');
   }
 
   const idx = pool[Math.floor(Math.random() * pool.length)];
-  if (!usedIndices[currentCat]) usedIndices[currentCat] = [];
-  usedIndices[currentCat].push(idx);
-  currentCard = { catId: currentCat, itemIdx: idx };
+  state.usedIndices[cid].push(idx);
+  saveState();
+  showCard(cid, idx, false);
+}
 
+function showCard(cid, idx, isDaily) {
+  const cat = CATEGORIES[cid];
   const item = cat.items[idx];
-  const total = cat.items.length;
-  const used = usedIndices[currentCat].length;
+  currentCard = { catId: cid, itemIdx: idx };
+  const used = (state.usedIndices[cid] || []).length;
 
-  const area = document.getElementById('cardArea');
-  area.innerHTML = `
-    <div class="card color-${currentCat}">
-      <div class="card-tag">${cat.short}</div>
+  document.getElementById('cardArea').innerHTML = `
+    <div class="card color-${cid}">
+      <div class="card-tag">${isDaily ? '✦ Carta del día · ' : ''}${cat.short}</div>
       <p class="card-text">${item.text}</p>
       ${item.sub ? `<p class="card-sub">${item.sub}</p>` : ''}
-      <div class="card-counter">${used}/${total}</div>
+      <div class="card-hint">desliza para otra →</div>
+      <div class="card-counter">${used}/${cat.items.length}</div>
     </div>
   `;
-
   document.getElementById('btnFav').style.display = 'inline-block';
+  document.getElementById('btnShare').style.display = 'inline-block';
   updateProgressBar();
   updateStats();
 }
 
+/* ---------- Swipe pour tirer ---------- */
+(function enableSwipe() {
+  const table = document.getElementById('cardTable');
+  let x0 = null, y0 = null;
+  table.addEventListener('touchstart', e => {
+    x0 = e.touches[0].clientX; y0 = e.touches[0].clientY;
+  }, { passive: true });
+  table.addEventListener('touchend', e => {
+    if (x0 === null) return;
+    const dx = e.changedTouches[0].clientX - x0;
+    const dy = e.changedTouches[0].clientY - y0;
+    if (Math.abs(dx) > 60 && Math.abs(dy) < 70) draw();
+    x0 = y0 = null;
+  }, { passive: true });
+  table.addEventListener('click', e => {
+    if (currentCard === null && state.currentCat === null) randomCategory();
+  });
+})();
+
+/* ---------- Partage ---------- */
+function shareCard() {
+  if (!currentCard) return;
+  const cat = CATEGORIES[currentCard.catId];
+  const item = cat.items[currentCard.itemIdx];
+  const text = `♥ Nosotros Dos — ${cat.short}\n\n${item.text}${item.sub ? '\n' + item.sub : ''}`;
+  if (navigator.share) {
+    navigator.share({ text }).catch(() => {});
+  } else {
+    window.open('https://wa.me/?text=' + encodeURIComponent(text), '_blank');
+  }
+}
+
+/* ---------- Notre liste (favoris + fait/à faire) ---------- */
 function saveFav() {
   if (!currentCard) return;
   const cat = CATEGORIES[currentCard.catId];
   const item = cat.items[currentCard.itemIdx];
-  const fav = { catLabel: cat.short, text: item.text, catId: currentCard.catId };
-
-  if (!favorites.some(f => f.text === fav.text)) {
-    favorites.push(fav);
-    localStorage.setItem('couple_favs_es', JSON.stringify(favorites));
-    renderFavs();
-
-    const btn = document.getElementById('btnFav');
-    btn.textContent = '♥ ¡Guardada!';
-    btn.style.borderColor = 'var(--terracotta)';
-    btn.style.color = 'var(--terracotta)';
-    setTimeout(() => {
-      btn.textContent = '♡ Guardar';
-      btn.style.borderColor = '';
-      btn.style.color = '';
-    }, 1600);
+  if (state.favorites.some(f => f.text === item.text)) {
+    toast('Ya está en vuestra lista');
+    return;
   }
+  state.favorites.push({ catLabel: cat.short, text: item.text, catId: currentCard.catId, done: false });
+  saveState();
+  renderFavs();
+  toast('♥ Añadida a vuestra lista');
 }
 
-function removeFav(idx) {
-  favorites.splice(idx, 1);
-  localStorage.setItem('couple_favs_es', JSON.stringify(favorites));
+function toggleDone(i) {
+  state.favorites[i].done = !state.favorites[i].done;
+  saveState();
+  renderFavs();
+  if (state.favorites[i].done) toast('✓ ¡Vivida!');
+}
+
+function removeFav(i) {
+  state.favorites.splice(i, 1);
+  saveState();
   renderFavs();
 }
 
 function renderFavs() {
   const section = document.getElementById('favsSection');
   const list = document.getElementById('favsList');
-  if (favorites.length === 0) { section.style.display = 'none'; return; }
+  if (state.favorites.length === 0) { section.style.display = 'none'; return; }
   section.style.display = 'block';
-  list.innerHTML = favorites.map((f, i) => `
-    <div class="fav-item">
-      <div>
+  const sorted = state.favorites.map((f, i) => ({ ...f, i })).sort((a, b) => (a.done === b.done) ? 0 : a.done ? 1 : -1);
+  list.innerHTML = sorted.map(f => `
+    <div class="fav-item ${f.done ? 'done' : ''}">
+      <button class="fav-check" onclick="toggleDone(${f.i})" aria-label="${f.done ? 'Marcar como pendiente' : 'Marcar como vivida'}">✓</button>
+      <div class="fav-body">
         <div class="fav-cat">${f.catLabel}</div>
-        <div>${f.text}</div>
+        <div class="fav-text">${f.text}</div>
       </div>
-      <button class="fav-remove" onclick="removeFav(${i})">✕</button>
+      <button class="fav-remove" onclick="removeFav(${f.i})" aria-label="Quitar de la lista">✕</button>
     </div>
   `).join('');
 }
 
-function updateStats() {
-  const total = CATEGORIES.reduce((s, c) => s + c.items.length, 0);
-  const used = Object.values(usedIndices).reduce((s, arr) => s + arr.length, 0);
-  document.getElementById('stats').textContent = `${used} carta${used !== 1 ? 's' : ''} vista${used !== 1 ? 's' : ''} de ${total} en total`;
+/* ---------- Stats / progression ---------- */
+function updateProgressBar() {
+  if (state.currentCat === null) return;
+  const cat = CATEGORIES[state.currentCat];
+  const seen = (state.usedIndices[state.currentCat] || []).length;
+  document.getElementById('progressBar').style.display = 'flex';
+  document.getElementById('progressLabel').textContent = `${seen} de ${cat.items.length} cartas vistas`;
+  document.getElementById('progressFill').style.width = Math.round(seen / cat.items.length * 100) + '%';
 }
 
+function updateStats() {
+  const total = CATEGORIES.reduce((s, c) => s + c.items.length, 0);
+  const used = Object.values(state.usedIndices).reduce((s, a) => s + a.length, 0);
+  const done = state.favorites.filter(f => f.done).length;
+  let txt = `${used} carta${used !== 1 ? 's' : ''} vista${used !== 1 ? 's' : ''} de ${total}`;
+  if (done > 0) txt += ` · ${done} vivida${done !== 1 ? 's' : ''} ♥`;
+  document.getElementById('stats').textContent = txt;
+}
+
+/* ---------- Toast ---------- */
+let toastTimer = null;
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+/* ---------- Init ---------- */
+if (state.currentCat !== null) {
+  document.querySelectorAll('.cat-btn').forEach((b, i) => b.classList.toggle('active', i === state.currentCat));
+  updateProgressBar();
+}
 renderFavs();
 updateStats();
 
-// Register service worker for PWA
-if ("serviceWorker" in navigator) {
-  navigator.serviceWorker.register("sw.js").catch(() => {});
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').catch(() => {});
 }
-
 </script>
 </body>
 </html>
