@@ -1,4 +1,4 @@
-const CACHE = 'nosotros-dos-v3';
+const CACHE = 'nosotros-dos-v4';
 const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-180.png', './favicon-32.png'];
 
 self.addEventListener('install', e => {

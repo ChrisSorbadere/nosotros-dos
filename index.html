@@ -32,14 +32,17 @@
 
   body {
     font-family: 'Figtree', sans-serif;
-    background:
-      radial-gradient(ellipse at 50% -10%, #3a2c50 0%, transparent 55%),
-      radial-gradient(ellipse at 90% 100%, rgba(217,164,65,0.10) 0%, transparent 50%),
-      var(--noche);
-    background-attachment: fixed;
+    background: var(--noche);
     color: var(--crema-texto);
     min-height: 100vh;
     overflow-x: hidden;
+  }
+
+  body::before {
+    content: ''; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+    background:
+      radial-gradient(ellipse at 50% -10%, #3a2c50 0%, transparent 55%),
+      radial-gradient(ellipse at 90% 100%, rgba(217,164,65,0.10) 0%, transparent 50%);
   }
 
   /* Étoiles discrètes */
@@ -58,7 +61,7 @@
   .app {
     position: relative; z-index: 1;
     max-width: 640px; margin: 0 auto;
-    padding: 0 18px 70px;
+    padding: env(safe-area-inset-top) 18px calc(70px + env(safe-area-inset-bottom));
   }
 
   /* ---------- Header ---------- */
@@ -196,6 +199,7 @@
   .card-tag {
     font-size: 0.74rem; font-weight: 600; text-transform: uppercase;
     letter-spacing: 2px; margin-bottom: 16px; color: var(--tinta-suave);
+    padding-right: 100px;
   }
 
   .card-text {
@@ -208,6 +212,23 @@
     margin-top: 16px; font-size: 0.97rem;
     color: var(--tinta-suave); line-height: 1.6;
   }
+
+  .card-icons {
+    position: absolute; top: 16px; right: 14px;
+    display: flex; gap: 8px;
+  }
+  .card-icon {
+    width: 42px; height: 42px; border-radius: 50%;
+    border: 1.5px solid rgba(43,33,51,0.18);
+    background: rgba(255,255,255,0.55);
+    color: var(--tinta-suave); font-size: 1.1rem;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.15s;
+    padding: 0;
+  }
+  .card-icon:hover { border-color: var(--rosa); color: var(--rosa); }
+  .card-icon:active { transform: scale(0.9); }
+  .card-icon.fav-on { background: var(--rosa); border-color: var(--rosa); color: #fff; }
 
   .card-counter {
     position: absolute; bottom: 16px; right: 20px;
@@ -402,8 +423,22 @@
     letter-spacing: 1px;
   }
 
+  @media (max-width: 560px) {
+    .categories {
+      flex-wrap: nowrap; justify-content: flex-start;
+      overflow-x: auto; -webkit-overflow-scrolling: touch;
+      margin-left: -18px; margin-right: -18px;
+      padding: 4px 18px 10px;
+      scrollbar-width: none;
+      mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+      -webkit-mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+    }
+    .categories::-webkit-scrollbar { display: none; }
+    .cat-btn { flex-shrink: 0; }
+  }
+
   @media (max-width: 480px) {
-    .card { padding: 30px 24px 54px; }
+    .card { padding: 30px 22px 54px; }
     .btn-main { padding: 14px 28px; }
     header { padding-top: 30px; }
   }
@@ -452,11 +487,9 @@
 
   <div class="actions">
     <button class="btn-main" onclick="draw()">Sacar una carta</button>
-    <button class="btn-sec" id="btnFav" onclick="saveFav()" style="display:none">♡ A la lista</button>
-    <button class="btn-sec" id="btnShare" onclick="shareCard()" style="display:none">Compartir</button>
     <button class="btn-sec" onclick="randomCategory()">Al azar</button>
     <button class="btn-sec" id="btnDuel" onclick="toggleDuel()">⚔ Duelo</button>
-    <button class="btn-sec" id="btnReset" onclick="resetCurrent()">↺</button>
+    <button class="btn-sec" id="btnReset" onclick="resetCurrent()" aria-label="Reiniciar la categoría actual" title="Reiniciar categoría">↺</button>
   </div>
 
 
@@ -987,6 +1020,82 @@ Object.keys(EXTRA_CARDS).forEach(k => {
   CATEGORIES[k].items.push(...EXTRA_CARDS[k]);
 });
 
+
+/* ---------- Cartas originales (segunda tanda) ---------- */
+const EXTRA_CARDS_2 = {
+  0: [
+    { text: "Si pudiéramos intercambiar cuerpos por un día, ¿qué es lo primero que harías?", sub: "Y sé sincero/a — ¿qué crees que haría yo?" },
+    { text: "¿Qué superpoder crees que ya tengo — sin saberlo?", sub: "Todo el mundo tiene uno. El mío lo conoces mejor que yo." },
+    { text: "Si fuéramos un dúo famoso de la historia o la ficción, ¿cuál seríamos?", sub: "¿Astérix y Obélix? ¿Don Quijote y Sancho? ¿Marie y Pierre Curie?" },
+    { text: "¿Qué olor, sabor o sonido resume nuestra casa?", sub: null },
+    { text: "¿Qué pregunta te da miedo hacerme — y quieres hacérmela ahora?", sub: "Este es el momento. Prometo responder." },
+    { text: "Si un genio nos concediera un solo deseo para los dos — nada de dinero — ¿qué pedirías?", sub: null },
+    { text: "¿Qué mueble, objeto o rincón de casa cuenta mejor nuestra historia?", sub: "Si las paredes hablaran, ¿qué diría ese rincón?" }
+  ],
+  1: [
+    { text: "El juego del contrabando", sub: "Uno esconde un objeto pequeño en casa. El otro tiene 2 minutos para encontrarlo con las pistas 'frío / caliente'. Luego se cambian los papeles." },
+    { text: "Torneo de aviones de papel", sub: "3 aviones cada uno, diseño libre. Pruebas: distancia, precisión (apuntar a un cubo) y elegancia en vuelo. Podio final." },
+    { text: "La subasta de tareas", sub: "Con dinero imaginario (100 monedas cada uno), subastad las tareas de la semana. '¡Bajar la basura, quién da más!' El que puja gana la tarea... o se libra de ella." },
+    { text: "La palabra intrusa", sub: "Antes de cenar, cada uno elige en secreto una palabra rara ('escafandra', 'ornitorrinco'). Hay que colarla en la conversación sin que el otro la detecte." },
+    { text: "El minuto de talentos absurdos", sub: "Cada uno demuestra un talento perfectamente inútil: mover las orejas, imitar una gaviota, decir el alfabeto al revés. Se puntúa la inutilidad." },
+    { text: "¿Verdad o dato inventado?", sub: "Por turnos: un dato histórico o científico. Puede ser real o inventado con aplomo. El otro decide. Punto para quien engañe — o quien detecte." },
+    { text: "El duelo de tortillas", sub: "Mismo día, misma cocina, dos tortillas de patata. Con o sin cebolla — que cada uno asuma su bando. Juez: una foto enviada a un amigo neutral." }
+  ],
+  2: [
+    { text: "La cena al revés", sub: "Empezad por el postre en una cafetería, seguid con el plato principal en otro sitio, acabad con el aperitivo en un tercero. El orden lógico está sobrevalorado." },
+    { text: "El plan de 20€", sub: "Una tarde entera para los dos con 20€ en total — transporte, comida y actividad incluidos. Gana la creatividad, no el presupuesto." },
+    { text: "Safari fotográfico de portales y azulejos", sub: "Por el Casco Antiguo, cada uno fotografía sus 5 portales, rejas o azulejos favoritos. Al final, comparad botines delante de un vermut." },
+    { text: "Excursión a Fuendetodos", sub: "El pueblo natal de Goya, con su casa y el museo del grabado. A 45 minutos de Zaragoza. Pequeño, sobrio y sorprendente." },
+    { text: "La luna llena desde el Puente de Piedra", sub: "Consultad el calendario lunar, elegid la noche exacta y esperadla sobre el Ebro con el Pilar iluminado detrás. Gratis y memorable." },
+    { text: "Un día en Jaca y San Juan de la Peña", sub: "La ciudadela de Jaca y el monasterio incrustado en la roca. Historia, montaña y un buen menú del día. A 1h30 de Zaragoza." },
+    { text: "La Zaragoza oculta", sub: "Buscad una visita guiada de la ciudad subterránea o insólita: termas romanas, refugios, pasadizos. Vivir aquí no significa conocerla." }
+  ],
+  3: [
+    { text: "El intercambio de idiomas semanal", sub: "Cada semana, Chris enseña una expresión francesa y Blanca una expresión bien maña. Obligación de usarlas los dos antes del domingo." },
+    { text: "El aplauso del día", sub: "Una vez al día, un aplauso literal — de verdad, con las dos manos — por algo pequeño que el otro haya hecho. Cuanto más solemne, mejor." },
+    { text: "El domingo de mapas", sub: "10 minutos con un mapa (papel o pantalla): elegid un sitio al azar y fantasead el viaje. Sin compromiso. A veces, alguno se vuelve real." },
+    { text: "Las elecciones de la cena del viernes", sub: "Cada uno defiende su candidata (pizza, japonés, tortilla...) con un discurso de campaña de 30 segundos. Se vota. Se puede pactar coalición." },
+    { text: "El top 3 del mes", sub: "El último día del mes, cada uno anuncia su podio: los 3 mejores momentos. Con entrega de medallas imaginarias y música mental de fondo." },
+    { text: "El semáforo de la semana", sub: "Cada domingo: una cosa en verde (seguir haciéndola), una en naranja (vigilarla) y una en rojo (pararla). Dos minutos, sin drama." }
+  ],
+  4: [
+    { text: "El abrazo de aeropuerto", sub: "Hoy, al reencontraros después del trabajo, abrazaos como si uno volviera de seis meses en el extranjero. Con giro incluido si hay espacio." },
+    { text: "La dedicatoria del libro imaginario", sub: "Cada uno escribe la dedicatoria del libro que nunca escribirá — dedicado al otro. 'A Blanca, que...' / 'A Chris, sin quien...'" },
+    { text: "La merienda de la infancia", sub: "Averiguad cuál era la merienda favorita del otro de pequeño — y preparádsela sin avisar un día cualquiera. Pan con chocolate cuenta doble." },
+    { text: "La manta única", sub: "Película con una sola manta para los dos. Prohibido traer una segunda. Las negociaciones territoriales forman parte de la experiencia." },
+    { text: "La foto oficial del año", sub: "Elegid juntos LA foto del año — una sola — y imprimidla de verdad. Marco, pared, ceremonia de inauguración de 30 segundos." },
+    { text: "El masaje de manos de 5 minutos", sub: "Más íntimo que un masaje de espalda y posible en cualquier sofá. Crema, calma, y las manos que tanto hacen cada día." }
+  ],
+  5: [
+    { text: "El negocio imposible", sub: "Diseñad juntos la empresa más absurda y maravillosa: food-truck de croquetas franco-aragonesas, agencia de siestas... Nombre, logo y eslogan incluidos." },
+    { text: "Las 7 maravillas de nuestro Aragón", sub: "Elaborad vuestra lista personal de 7 maravillas de la región — y comprometeos a visitarlas todas antes de fin de año." },
+    { text: "El documental de un minuto", sub: "Un vídeo de 60 segundos al mes sobre vuestra vida. En diciembre, montadlos: 12 minutos de película anual. Palomitas obligatorias en el estreno." },
+    { text: "El intercambio de habilidades", sub: "Un mes: cada uno enseña al otro algo que sabe hacer. Cocinar un plato, una llave de ajedrez, coser un botón, jurar en francés con elegancia." },
+    { text: "Adoptad una palabra inventada", sub: "Cread una palabra nueva con su definición y usadla con naturalidad delante de amigos hasta que alguien la adopte sin darse cuenta. Objetivo: un año." },
+    { text: "El comité de los grandes proyectos", sub: "Una vez al trimestre, reunión oficial de 30 minutos con orden del día: viajes, casa, sueños. Café solemne y acta de dos líneas." }
+  ],
+  6: [
+    { text: "¿Cuál fue el primer regalo cutre que nos hicimos — y dónde está ahora?", sub: "Todo el mundo tiene uno. Confesad." },
+    { text: "¿Cuál fue nuestro primer ridículo compartido en público?", sub: "Ese momento en que los dos quisisteis desaparecer — juntos." },
+    { text: "¿Qué recuerdas de la primera vez que me oíste hablar en mi idioma?", sub: "El francés de Chris, el español de Blanca — ¿qué pensaste?" },
+    { text: "¿Cuál fue la peor comida que hemos cocinado — y quién tuvo la culpa?", sub: "Se admite compartir la responsabilidad. No es obligatorio." },
+    { text: "¿Qué predicción hicimos que se cumplió — o que falló estrepitosamente?", sub: "'Este restaurante cerrará en un año.' '¡Seguro que llueve!'" },
+    { text: "¿Cuál fue el primer apodo que nos pusimos?", sub: "¿Sobrevivió? ¿Fue reemplazado? ¿Merece volver?" }
+  ],
+  7: [
+    { text: "El horóscopo inventado", sub: "Cada uno escribe el horóscopo de la semana del otro, absurdo y detallado. Se lee en voz alta, con tono místico y velas si hay." },
+    { text: "La rueda de prensa", sub: "Uno es una estrella mundial; el otro, toda la prensa a la vez. Preguntas absurdas, respuestas evasivas, escándalo final." },
+    { text: "El sommelier del agua del grifo", sub: "Catad el agua del grifo como un gran reserva: color, nariz, boca, retrogusto. 'Notas minerales del Ebro, final atrevido.'" },
+    { text: "El doblaje de la calle", sub: "Desde el balcón o una terraza, poned voz y diálogos a la gente y las palomas que pasan. Culebrón garantizado en 5 minutos." },
+    { text: "El premio Nobel de lo cotidiano", sub: "Ceremonia solemne: entregad al otro el Nobel de 'cargar el lavavajillas' o 'encontrar las llaves'. Discurso de aceptación emocionado obligatorio." },
+    { text: "La teletienda de casa", sub: "Elegid un objeto cualquiera (un tenedor, una zapatilla) y vendedlo como en la teletienda: '¡Y no solo eso — si llama ahora...!'" },
+    { text: "El menú leído como alta cocina", sub: "En el próximo bar, leed la carta entera en voz baja como si fuera un restaurante de tres estrellas. 'Bravas... una declaración de intenciones.'" }
+  ]
+};
+Object.keys(EXTRA_CARDS_2).forEach(k => {
+  CATEGORIES[k].items.push(...EXTRA_CARDS_2[k]);
+});
+
 /* ---------- État persistant ---------- */
 const STORE_KEY = 'nd_state_v1';
 let state = { usedIndices: {}, currentCat: null, favorites: [], duel: { on: false, b: 0, c: 0 } };
@@ -1043,10 +1152,24 @@ function dailyCard() {
   return { catId: ci, itemIdx: ii };
 }
 
+function todayKey() { return new Date().toISOString().slice(0, 10); }
+
 function showDaily() {
   const dc = dailyCard();
   selectCategory(dc.catId, false);
   showCard(dc.catId, dc.itemIdx, true);
+  state.dailySeen = todayKey();
+  saveState();
+  updateDailyPreview();
+}
+
+function updateDailyPreview() {
+  const p = document.getElementById('dailyPreview');
+  if (state.dailySeen === todayKey()) {
+    p.textContent = CATEGORIES[dailyCard().catId].short + ' — vista hoy · toca para releerla';
+  } else {
+    p.textContent = 'Toca para descubrir la carta de hoy';
+  }
 }
 
 /* ---------- Catégories ---------- */
@@ -1108,8 +1231,13 @@ function showCard(cid, idx, isDaily) {
   currentCard = { catId: cid, itemIdx: idx };
   const used = (state.usedIndices[cid] || []).length;
 
+  const inList = state.favorites.some(f => f.text === item.text);
   document.getElementById('cardArea').innerHTML = `
     <div class="card color-${cid}">
+      <div class="card-icons">
+        <button class="card-icon ${inList ? 'fav-on' : ''}" id="cardFavBtn" onclick="saveFav()" aria-label="Guardar en vuestra lista">${inList ? '♥' : '♡'}</button>
+        <button class="card-icon" onclick="shareCard()" aria-label="Compartir esta carta">↗</button>
+      </div>
       <div class="card-tag">${isDaily ? '✦ Carta del día · ' : ''}${cat.short}</div>
       <p class="card-text">${item.text}</p>
       ${item.sub ? `<p class="card-sub">${item.sub}</p>` : ''}
@@ -1117,8 +1245,6 @@ function showCard(cid, idx, isDaily) {
       <div class="card-counter">${used}/${cat.items.length}</div>
     </div>
   `;
-  document.getElementById('btnFav').style.display = 'inline-block';
-  document.getElementById('btnShare').style.display = 'inline-block';
   updateProgressBar();
   updateStats();
 }
@@ -1167,6 +1293,8 @@ function saveFav() {
   state.favorites.push({ catLabel: cat.short, text: item.text, catId: currentCard.catId, done: false });
   saveState();
   renderFavs();
+  const ic = document.getElementById('cardFavBtn');
+  if (ic) { ic.classList.add('fav-on'); ic.textContent = '♥'; }
   toast('♥ Añadida a vuestra lista');
 }
 
@@ -1322,6 +1450,7 @@ if (state.currentCat !== null) {
 renderFavs();
 renderDuel();
 updateStats();
+updateDailyPreview();
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('sw.js').catch(() => {});
