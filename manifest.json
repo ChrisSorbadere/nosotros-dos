@@ -1,11 +1,11 @@
 {
   "name": "Nosotros Dos — Blanca y Chris",
   "short_name": "Nosotros Dos",
-  "description": "Preguntas, retos, salidas y rituales para dos",
+  "description": "Preguntas, juegos, salidas y rituales para dos",
   "start_url": "./index.html",
   "display": "standalone",
-  "background_color": "#241b2f",
-  "theme_color": "#241b2f",
+  "background_color": "#16111C",
+  "theme_color": "#16111C",
   "orientation": "portrait",
   "icons": [
     {
