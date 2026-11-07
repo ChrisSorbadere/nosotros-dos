@@ -1,5 +1,5 @@
-const CACHE = 'nosotros-dos-v5';
-const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-180.png', './favicon-32.png'];
+const CACHE = 'nosotros-dos-v6';
+const ASSETS = ['./', './index.html', './manifest.json', './icon-192.png', './icon-512.png', './icon-180.png', './favicon-32.png', './maskable-192.png', './maskable-512.png', './favicon.ico'];
 
 self.addEventListener('install', e => {
   e.waitUntil(
