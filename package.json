@@ -1,0 +1,11 @@
+{
+  "name": "nosotros-dos",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Nosotros Dos — appli Android (Capacitor) qui charge chrissorbadere.github.io/nosotros-dos",
+  "dependencies": {
+    "@capacitor/android": "8.5.3",
+    "@capacitor/cli": "8.5.3",
+    "@capacitor/core": "8.5.3"
+  }
+}

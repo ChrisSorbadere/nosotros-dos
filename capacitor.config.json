@@ -1,0 +1,11 @@
+{
+  "appId": "io.github.chrissorbadere.nosotrosdos",
+  "appName": "Nosotros Dos",
+  "webDir": "app-shell",
+  "server": {
+    "url": "https://chrissorbadere.github.io/nosotros-dos/",
+    "errorPath": "offline.html",
+    "androidScheme": "https"
+  },
+  "android": { "allowMixedContent": false, "backgroundColor": "#16111C" }
+}
